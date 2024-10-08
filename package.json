@@ -1,12 +1,8 @@
 {
-  "name": "react-typescript",
+  "name": "jokes-app",
   "version": "1.0.0",
-  "description": "React and TypeScript example starter project",
-  "keywords": [
-    "typescript",
-    "react",
-    "starter"
-  ],
+  "description": "Learn languages with jokes",
+  "homepage": "https://westwood846.github.io/jokes-app",
   "main": "src/index.tsx",
   "dependencies": {
     "@emotion/react": "11.13.3",
@@ -16,6 +12,7 @@
     "@mui/material": "6.1.2",
     "@mui/utils": "6.1.2",
     "@uidotdev/usehooks": "^2.4.1",
+    "gh-pages": "^6.1.1",
     "loader-utils": "3.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -30,6 +27,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "predeploy": "pnpm run build",
+    "deploy": "gh-pages -d build",
     "eject": "react-scripts eject"
   },
   "browserslist": [
