@@ -1,34 +1,36 @@
 import {
   Alert,
   Box,
+  Button,
   Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   IconButton,
   Stack,
-  Tab,
   Typography,
 } from "@mui/material";
 import { IJoke, tagLabels } from "./jokes";
 import { useLangs } from "./lang";
-import { PlayCircle, Share } from "@mui/icons-material";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
+import {
+  BookOutlined,
+  LightbulbOutlined,
+  PlayCircle,
+  Share,
+} from "@mui/icons-material";
 import { Fragment, useState } from "react";
 
 interface JokeProps {
   joke: IJoke;
 }
 
-type TabValues = "joke" | "explanation" | "words";
+type DialogValues = "explanation" | "words";
 
 export const Joke = ({ joke }: JokeProps) => {
   const { foreignLang, appLang } = useLangs();
 
-  const [tabValue, setTabValue] = useState<TabValues>("joke");
-  const handleTabValueChange = (
-    event: React.SyntheticEvent,
-    newValue: TabValues
-  ) => {
-    setTabValue(newValue);
-  };
+  const [dialogValue, setDialogValue] = useState<DialogValues | null>(null);
 
   const jokeInAppLang = joke.translations[appLang];
   const jokeInForeignLang = joke.translations[foreignLang];
@@ -109,41 +111,37 @@ export const Joke = ({ joke }: JokeProps) => {
         </IconButton>
       </Stack>
 
-      <TabContext value={tabValue}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <TabList
-            onChange={handleTabValueChange}
-            aria-label="Joke information"
-          >
-            <Tab label="Joke" value="joke" />
-            {joke.explanations?.[appLang] && (
-              <Tab label="Explanation" value="explanation" />
-            )}
-            {joke.terms && joke.terms.length > 0 && (
-              <Tab label="Words" value="words" />
-            )}
-          </TabList>
-        </Box>
+      <div>
+        {jokeInForeignLang.map((line, i) => (
+          <Fragment key={i}>
+            <Typography component="span">{line}</Typography>{" "}
+            <Typography component="span" color="success">
+              ({jokeInAppLang[i]})
+            </Typography>{" "}
+          </Fragment>
+        ))}
+      </div>
 
-        <TabPanel value="joke" sx={{ p: 0 }}>
-          {jokeInForeignLang.map((line, i) => (
-            <Fragment key={i}>
-              <Typography component="span">{line}</Typography>{" "}
-              <Typography component="span" color="success">
-                ({jokeInAppLang[i]})
-              </Typography>{" "}
-            </Fragment>
-          ))}
-        </TabPanel>
+      {joke.explanations && (
+        <Dialog
+          open={dialogValue === "explanation"}
+          onClose={() => setDialogValue(null)}
+        >
+          <DialogTitle>Explanation</DialogTitle>
+          <DialogContent>{joke.explanations?.[appLang]}</DialogContent>
+          <DialogActions>
+            <Button onClick={() => setDialogValue(null)}>Close</Button>
+          </DialogActions>
+        </Dialog>
+      )}
 
-        {joke.explanations?.[appLang] && (
-          <TabPanel value="explanation" sx={{ p: 0 }}>
-            {joke.explanations[appLang]}
-          </TabPanel>
-        )}
-
-        {joke.terms && joke.terms.length > 0 && (
-          <TabPanel value="words" sx={{ p: 0 }}>
+      {joke.terms && (
+        <Dialog
+          open={dialogValue === "words"}
+          onClose={() => setDialogValue(null)}
+        >
+          <DialogTitle>Words</DialogTitle>
+          <DialogContent>
             <Stack spacing={1.5} component="dl" sx={{ my: 0 }}>
               {joke.terms.map((term) => (
                 <div key={term.term[appLang]}>
@@ -160,9 +158,35 @@ export const Joke = ({ joke }: JokeProps) => {
                 </div>
               ))}
             </Stack>
-          </TabPanel>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setDialogValue(null)}>Close</Button>
+          </DialogActions>
+        </Dialog>
+      )}
+
+      <Stack direction={"row"} spacing={1}>
+        {joke.explanations && (
+          <Button
+            color="primary"
+            onClick={() => setDialogValue("explanation")}
+            size="small"
+            startIcon={<LightbulbOutlined />}
+          >
+            Explanation
+          </Button>
         )}
-      </TabContext>
+        {joke.terms && (
+          <Button
+            color="primary"
+            onClick={() => setDialogValue("words")}
+            size="small"
+            startIcon={<BookOutlined />}
+          >
+            Words
+          </Button>
+        )}
+      </Stack>
     </Stack>
   );
 };
