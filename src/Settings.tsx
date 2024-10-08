@@ -28,7 +28,7 @@ export const Settings = () => {
         <Typography variant="h4" component="h1">
           Settings
         </Typography>
-        <IconButton onClick={() => setPage("read")}>
+        <IconButton onClick={() => setPage("read")} title="Close settings">
           <Close />
         </IconButton>
       </Stack>

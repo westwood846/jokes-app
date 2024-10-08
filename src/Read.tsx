@@ -48,7 +48,7 @@ export const Read = () => {
         <Typography variant="h4" component="h1">
           Read
         </Typography>
-        <IconButton onClick={() => setPage("settings")}>
+        <IconButton onClick={() => setPage("settings")} title="Settings">
           <Settings />
         </IconButton>
       </Stack>
