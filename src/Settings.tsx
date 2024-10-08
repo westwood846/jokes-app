@@ -19,7 +19,7 @@ export const Settings = () => {
   const { setPage } = useCurrentPage();
 
   return (
-    <Container component={Stack} spacing={4} maxWidth="xs">
+    <Stack spacing={4}>
       <Stack
         direction={"row"}
         justifyContent={"space-between"}
@@ -74,6 +74,6 @@ export const Settings = () => {
           </Select>
         </FormControl>
       </Stack>
-    </Container>
+    </Stack>
   );
 };

@@ -8,8 +8,11 @@ import {
   Alert,
   Button,
   Box,
+  List,
+  ListItem,
+  Divider,
 } from "@mui/material";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { IJoke, jokes, tagLabels } from "./jokes";
 import { useLangs } from "./lang";
 import { useCurrentPage } from "./routing";
@@ -36,7 +39,7 @@ export const Read = () => {
   const { setPage } = useCurrentPage();
 
   return (
-    <Container component={Stack} spacing={2} maxWidth="xs">
+    <Stack spacing={2}>
       <Stack
         direction={"row"}
         justifyContent={"space-between"}
@@ -67,12 +70,15 @@ export const Read = () => {
         ))}
       </Stack>
 
-      <Stack spacing={8}>
+      <List>
         {availableJokes.map((joke) => (
-          <Joke key={joke.id} joke={joke} />
+          <Fragment key={joke.id}>
+            <Joke joke={joke} />
+            <Divider variant="middle" sx={{ my: 6 }} />
+          </Fragment>
         ))}
-      </Stack>
-    </Container>
+      </List>
+    </Stack>
   );
 };
 
