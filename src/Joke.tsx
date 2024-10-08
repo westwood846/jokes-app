@@ -7,7 +7,7 @@ import {
   Tab,
   Typography,
 } from "@mui/material";
-import { IJoke } from "./jokes";
+import { IJoke, tagLabels } from "./jokes";
 import { useLangs } from "./lang";
 import { PlayCircle, Share } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
@@ -34,6 +34,15 @@ export const Joke = ({ joke }: JokeProps) => {
   const jokeInForeignLang = joke.translations[foreignLang];
   const titleInAppLang = joke.title[appLang];
   const titleInForeignLang = joke.title[foreignLang];
+
+  const difficulty =
+    joke.terms && joke.terms.length > 0
+      ? joke.terms.reduce(
+          (max, term) =>
+            (term.difficulty || "A0") < max ? max : term.difficulty,
+          "A1"
+        )
+      : null;
 
   if (
     !jokeInAppLang ||
@@ -91,8 +100,9 @@ export const Joke = ({ joke }: JokeProps) => {
           gap={1}
         >
           {joke.tags.map((tag) => (
-            <Chip key={tag} label={tag} size="small" />
+            <Chip key={tag} label={tagLabels[tag][appLang]} size="small" />
           ))}
+          {difficulty && <Chip label={difficulty} size="small" />}
         </Stack>
         <IconButton title="Share" size="small">
           <Share />
