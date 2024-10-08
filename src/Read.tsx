@@ -1,21 +1,19 @@
-import { Settings, PlayCircle, GTranslate } from "@mui/icons-material";
+import { Settings, PlayCircle, GTranslate, Share } from "@mui/icons-material";
 import {
-  Container,
   Stack,
   Typography,
   IconButton,
   Chip,
   Alert,
-  Button,
   Box,
   List,
-  ListItem,
   Divider,
 } from "@mui/material";
 import { Fragment, useState } from "react";
 import { IJoke, jokes, tagLabels } from "./jokes";
 import { useLangs } from "./lang";
 import { useCurrentPage } from "./routing";
+import { Joke } from "./Joke";
 
 export const Read = () => {
   const { appLang, foreignLang } = useLangs();
@@ -78,75 +76,6 @@ export const Read = () => {
           </Fragment>
         ))}
       </List>
-    </Stack>
-  );
-};
-
-interface JokeProps {
-  joke: IJoke;
-}
-
-const Joke = ({ joke }: JokeProps) => {
-  const { foreignLang, appLang } = useLangs();
-
-  const jokeInAppLang = joke.translations[appLang];
-  const jokeInForeignLang = joke.translations[foreignLang];
-  const titleInAppLang = joke.title[appLang];
-  const titleInForeignLang = joke.title[foreignLang];
-
-  const [revealed, setRevealed] = useState(false);
-  const reveal = () => setRevealed(true);
-  const hide = () => setRevealed(false);
-
-  return (
-    <Stack spacing={2}>
-      {joke.image && (
-        <Box
-          component="img"
-          src={joke.image}
-          alt={joke.id}
-          sx={{
-            borderRadius: 10,
-            boxShadow: "3px 3px 50px 8px rgba(255,198,0,0.15)",
-          }}
-        />
-      )}
-
-      <Stack direction={"row"} spacing={2}>
-        <Button variant="contained" size="small">
-          <PlayCircle />
-        </Button>
-        <Button
-          startIcon={<GTranslate />}
-          onClick={revealed ? hide : reveal}
-          variant="contained"
-          size="small"
-        >
-          Translate
-        </Button>
-      </Stack>
-
-      <Stack>
-        {titleInAppLang && (
-          <Typography variant="h5">{titleInAppLang}</Typography>
-        )}
-        {titleInForeignLang && revealed && (
-          <Typography variant="h5" color="success">
-            {titleInForeignLang}
-          </Typography>
-        )}
-      </Stack>
-
-      <Stack>
-        {jokeInAppLang ? (
-          <Typography>{jokeInAppLang}</Typography>
-        ) : (
-          <Alert severity="error">Missing translation ¯\_(ツ)_/¯</Alert>
-        )}
-        {revealed && jokeInForeignLang && (
-          <Typography color="success">{jokeInForeignLang}</Typography>
-        )}
-      </Stack>
     </Stack>
   );
 };

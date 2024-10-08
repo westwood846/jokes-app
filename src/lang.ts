@@ -1,6 +1,7 @@
 import { useLocalStorage } from "@uidotdev/usehooks";
-import { jokes } from "./jokes";
 import { useCallback } from "react";
+
+export type CEFR = "A1" | "A2" | "B1" | "B2" | "C1" | "C2";
 
 export const langs = {
   en: "English",

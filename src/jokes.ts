@@ -1,187 +1,253 @@
-import { Lang } from "./lang";
+import { CEFR, Lang } from "./lang";
 
-export type Translations = { [key in Lang]?: string };
+export type LangMap = { [key in Lang]?: string };
+export type LangArray = { [key in Lang]?: string[] };
 
 export interface IJoke {
   id: string;
   tags: string[];
   image?: string;
-  title: Translations;
-  translations: Translations;
+  lang: Lang | null;
+  title: LangMap;
+  translations: LangArray;
+  terms?: {
+    term: LangMap;
+    difficulty: CEFR;
+    definitions: LangMap;
+  }[];
+  explanations?: LangMap;
 }
-
-// export const jokes = [
-//   {
-//     de: "Wie viele Deutsche braucht es um eine Glühbirne zu wechseln? -- Nur einen. Wir sind effizient und mögen keine Witze.",
-//     en: "How many Germans does it take to change a lightbulb? -- Only one. We are an efficient people, and we don't like jokes.",
-//     ru: null,
-//   },
-//   {
-//     de: 'Gehen zwei Zahnstocher in den Wald und sehen einen Igel. Sagt der eine: „Ich wusste gar nicht, dass hier ein Bus fährt."',
-//     en: "Two toothpicks are walking in the forest and meet a hedgehog. One says: „I didn't even know there was a bus here.\"",
-//   },
-//   {
-//     de: "Was haben ein Router und mein Opa gemeinsam? -- Eine SSID.",
-//     en: "What do a router and my grandpa have in common? -- An SSID.",
-//   },
-//   {
-//     de: "Es gibt nur 10 Arten von Leuten auf der Welt: Die, die Binär verstehen, und die, die's nicht verstehen.",
-//     en: "There are only 10 kinds of people in the world: Those who understand binary, and those who don't.",
-//   },
-//   {
-//     de: "Chuck Norris haut sich zum Frühstück zwei Pfannen in die Eier.",
-//     en: "???",
-//   },
-//   {
-//     de: "Sagt der Kamikaze Ausbilder zu seinen Schülern: Passen Sie gut auf, denn dies kann ich Ihnen nur einmal zeigen!",
-//     en: "The kamikaze instructor says to his students: Pay attention, I can only show this to you once!",
-//   },
-//   {
-//     de: "Was ist das beste an der Schweiz? Keine Ahnung, aber die Flagge ist schon mal ein großes Plus.",
-//     en: "What's the best thing about Switzerland? No idea, but the flag is a big plus.",
-//   },
-//   {
-//     ru: `
-//       Что вы будете делать, если увидите зеленого человечка?
-//       60% ответили – брошу пить!
-//       30% – начну пить!
-//       9% – пойду на прием к психиатру!
-//       И только одна девушка сказала: «Начну переходить дорогу!
-//       `,
-//     en: `
-//       What will you do if you see a green man?
-//       60% answered - I will stop drinking!
-//       30% - I will start drinking!
-//       9% - I will go to a psychiatrist!
-//       And only one girl said: I will cross the road!`,
-//   },
-//   {
-//     ru: `
-//       „Ну сколько там ещё?“
-//       „50%“
-//       „Осталось или загрузилось?“`,
-//     en: `
-//       "How much is left?"
-//       "50%"
-//       "Remaining or downloaded?"`,
-//   },
-//   {
-//     ru: `
-//       Муж говорит жене:
-//       „Милая, должен признаться, я тебе
-//       изменил!“
-//       Жена:
-//       „я тебе тоже!“
-//       Муж:
-//       „1 апреля!“
-//       Жена:
-//       „а я в июне“`,
-//     en: `
-//       Husband says to wife:
-//       "Honey, I gotta tell you, I cheated on you!"
-//       Wife:
-//       "I cheated, too!"
-//       Husband:
-//       "April 1st!"
-//       Wife:
-//       "and me in June."`,
-//   },
-// ] as Joke[];
 
 export const jokes: IJoke[] = [
   {
     id: "2",
     tags: ["animals"],
-    image: "penguins.png",
+    image: "hedgehog.webp",
+    lang: null,
     title: {
       de: "Zahnstocher im Wald",
       en: "Toothpicks in the Forest",
     },
     translations: {
-      de: 'Gehen zwei Zahnstocher in den Wald und sehen einen Igel. Sagt der eine: „Ich wusste gar nicht, dass hier ein Bus fährt."',
-      en: "Two toothpicks are walking in the forest and meet a hedgehog. One says: „I didn't even know there was a bus here.\"",
+      de: [
+        "Gehen zwei Zahnstocher in den Wald und sehen einen Igel.",
+        "Sagt der eine:",
+        '"Ich wusste gar nicht, dass hier ein Bus fährt."',
+      ],
+      en: [
+        "Two toothpicks are walking in the forest and meet a hedgehog.",
+        "One says:",
+        '"I didn\'t even know there was a bus here."',
+      ],
+    },
+    terms: [
+      {
+        term: {
+          de: "Zahnstocher",
+          en: "Toothpick",
+        },
+        difficulty: "A1",
+        definitions: {
+          de: "Ein kleiner Stab aus Holz oder Plastik oder Metall, das zum Reinigen der Zähne verwendet wird.",
+          en: "A small stick made of wood or plastic used for cleaning teeth.",
+        },
+      },
+      {
+        term: {
+          de: "Igel",
+          en: "Hedgehog",
+        },
+        difficulty: "A1",
+        definitions: {
+          de: "Ein kleines Tier mit Stacheln auf dem Rücken.",
+          en: "A small animal with spikes on its back.",
+        },
+      },
+      {
+        term: {
+          de: "Bus",
+          en: "Bus",
+        },
+        difficulty: "A1",
+        definitions: {
+          de: "Ein großes Fahrzeug, das viele Menschen transportieren kann.",
+          en: "A large vehicle that can transport many people.",
+        },
+      },
+    ],
+    explanations: {
+      de: "Der Igel hat Stacheln auf dem Rücken, die wie die Sitze in einem Bus aussehen.",
+      en: "The hedgehog has spikes on its back that look like the seats in a bus.",
     },
   },
   {
     id: "1",
     tags: ["animals", "stereotypes"],
     image: "irishman.png",
+    lang: null,
     title: {
       de: "Deutsche Effizienz",
       en: "German Efficiency",
     },
     translations: {
-      de: "Wie viele Deutsche braucht es um eine Glühbirne zu wechseln? -- Nur einen. Wir sind effizient und mögen keine Witze.",
-      en: "How many Germans does it take to change a lightbulb? -- Only one. We are an efficient people, and we don't like jokes.",
+      de: [
+        "Wie viele Deutsche braucht es um eine Glühbirne zu wechseln?",
+        "Nur einen.",
+        "Wir sind effizient und mögen keine Witze.",
+      ],
+      en: [
+        "How many Germans does it take to change a lightbulb?",
+        "Only one.",
+        "We are an efficient people, and we don't like jokes.",
+      ],
     },
+    terms: [
+      {
+        term: {
+          de: "Deutsche",
+          en: "Germans",
+        },
+        difficulty: "A1",
+        definitions: {
+          de: "Menschen aus Deutschland.",
+          en: "People from Germany.",
+        },
+      },
+      {
+        term: {
+          de: "Glühbirne",
+          en: "Lightbulb",
+        },
+        difficulty: "A1",
+        definitions: {
+          de: "Ein Gerät, das Licht macht.",
+          en: "A device that makes light.",
+        },
+      },
+    ],
   },
   {
     id: "3",
     tags: ["animals", "family"],
+    image: "grandpas-wifi.webp",
+    lang: "de",
     title: {
       de: "Router und Opa",
       en: "Router and Grandpa",
     },
     translations: {
-      de: "Was haben ein Router und mein Opa gemeinsam? -- Eine SSID.",
-      en: "What do a router and my grandpa have in common? -- An SSID.",
+      de: [
+        "Was haben ein Router und mein deutscher Opa gemeinsam?",
+        "Eine SSID.",
+      ],
+      en: [
+        "What do a router and my German grandpa have in common?",
+        "An SSID.",
+      ],
     },
   },
   {
     id: "4",
     tags: ["animals"],
+    lang: null,
     title: {
       de: "Binär",
       en: "Binary",
     },
     translations: {
-      de: "Es gibt nur 10 Arten von Leuten auf der Welt: Die, die Binär verstehen, und die, die's nicht verstehen.",
-      en: "There are only 10 kinds of people in the world: Those who understand binary, and those who don't.",
+      de: [
+        "Es gibt nur 10 Arten von Leuten auf der Welt:",
+        "Die, die Binär verstehen, und die, die's nicht verstehen.",
+      ],
+      en: [
+        "There are only 10 kinds of people in the world:",
+        "Those who understand binary, and those who don't.",
+      ],
+    },
+    explanations: {
+      de: "Im Binärsystem gibt es nur die Ziffern 0 und 1.",
+      en: "In the binary system, there are only the digits 0 and 1.",
     },
   },
   {
     id: "5",
     tags: ["animals", "family"],
     image: "irishman.png",
+    lang: "de",
     title: {
       de: "Chuck Norris",
       en: "Chuck Norris",
     },
     translations: {
-      de: "Chuck Norris haut sich zum Frühstück zwei Pfannen in die Eier.",
+      de: ["Chuck Norris haut sich zum Frühstück zwei Pfannen in die Eier."],
+    },
+    explanations: {
+      de: "Chuck Norris ist ein Schauspieler und Kampfkünstler.",
+      en: "Chuck Norris is an actor and martial artist.",
     },
   },
   {
     id: "6",
     tags: ["animals"],
-    image: "penguins.png",
+    image: "japanese.webp",
+    lang: null,
     title: {
       de: "Kamikaze",
       en: "Kamikaze",
     },
     translations: {
-      de: "Sagt der Kamikaze Ausbilder zu seinen Schülern: Passen Sie gut auf, denn dies kann ich Ihnen nur einmal zeigen!",
-      en: "The kamikaze instructor says to his students: Pay attention, I can only show this to you once!",
+      de: [
+        "Sagt der Kamikaze Ausbilder zu seinen Schülern:",
+        "Passen Sie gut auf, denn dies kann ich Ihnen nur einmal zeigen!",
+      ],
+      en: [
+        "The kamikaze instructor says to his students:",
+        "Pay attention, I can only show this to you once!",
+      ],
     },
+    terms: [
+      {
+        term: {
+          de: "Kamikaze",
+          en: "Kamikaze",
+        },
+        difficulty: "B2",
+        definitions: {
+          de: "Ein japanischer Selbstmordpilot.",
+          en: "A Japanese suicide pilot.",
+        },
+      },
+    ],
   },
   {
     id: "7",
     tags: ["animals"],
     image: "penguins.png",
+    lang: null,
     title: {
       de: "Schweiz",
       en: "Switzerland",
     },
     translations: {
-      de: "Was ist das beste an der Schweiz? Keine Ahnung, aber die Flagge ist schon mal ein großes Plus.",
-      en: "What's the best thing about Switzerland? No idea, but the flag is a big plus.",
+      de: [
+        "Was ist das beste an der Schweiz?",
+        "Keine Ahnung, aber die Flagge ist schon mal ein großes Plus.",
+      ],
+      en: [
+        "What's the best thing about Switzerland?",
+        "No idea, but the flag is a big plus.",
+      ],
+    },
+    explanations: {
+      de: "Die Flagge der Schweiz hat ein weißes Kreuz auf rotem Hintergrund, was als Pluszeichen interpretiert werden kann.",
+      en: "The flag of Switzerland has a white cross on a red background, which can be interpreted as a plus sign.",
     },
   },
 ];
 
 export const tags = Array.from(new Set(jokes.flatMap((joke) => joke.tags)));
 
-export const tagLabels: { [tag: string]: Translations } = {
+export const tagLabels: { [tag: string]: LangMap } = {
   animals: {
     de: "Tiere",
     en: "Animals",
