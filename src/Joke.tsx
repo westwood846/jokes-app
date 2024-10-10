@@ -16,8 +16,9 @@ import { useLangs } from "./lang";
 import {
   BookOutlined,
   LightbulbOutlined,
-  PlayCircle,
   Share,
+  TranslateOutlined,
+  VolumeUp,
 } from "@mui/icons-material";
 import { Fragment, useState } from "react";
 
@@ -73,40 +74,40 @@ export const Joke = ({ joke }: JokeProps) => {
         />
       )}
 
-      <Stack direction={"row"} spacing={2} alignItems={"center"}>
-        <IconButton
-          title={`Listen to "${titleInForeignLang}"`}
-          color="primary"
-          size="large"
-        >
-          <PlayCircle />
-        </IconButton>
-        <Stack>
-          <Typography variant="h5">{titleInAppLang}</Typography>
-          <Typography variant="h5" color="success">
-            {titleInForeignLang}
-          </Typography>
-        </Stack>
+      <Stack>
+        <Typography variant="h5">{titleInAppLang}</Typography>
+        <Typography variant="body1" color="primary.dark">
+          {titleInForeignLang}
+        </Typography>
       </Stack>
 
-      <Stack
-        direction="row"
-        justifyContent={"space-between"}
-        alignItems={"center"}
-      >
-        <Stack
-          direction={"row"}
-          flexWrap={"wrap"}
-          useFlexGap
-          maxWidth={300}
-          gap={1}
-        >
-          {joke.tags.map((tag) => (
-            <Chip key={tag} label={tagLabels[tag][appLang]} size="small" />
-          ))}
-          {difficulty && <Chip label={difficulty} size="small" />}
+      <Stack direction={"row"} justifyContent={"space-between"}>
+        <Stack direction={"row"} spacing={2} alignItems={"center"}>
+          <IconButton
+            title={`Listen to "${titleInForeignLang}"`}
+            variant="texty"
+          >
+            <VolumeUp />
+          </IconButton>
+          <IconButton title={`Toggle joke translation`} variant="outlined">
+            <TranslateOutlined />
+          </IconButton>
+          <IconButton
+            title={`Explain words`}
+            variant="outlined"
+            onClick={() => setDialogValue("words")}
+          >
+            <BookOutlined />
+          </IconButton>
+          <IconButton
+            title={`Explain joke"`}
+            variant="primary"
+            onClick={() => setDialogValue("explanation")}
+          >
+            <LightbulbOutlined />
+          </IconButton>
         </Stack>
-        <IconButton title="Share" size="small">
+        <IconButton title={`Share joke"`} variant="primary">
           <Share />
         </IconButton>
       </Stack>
@@ -115,8 +116,8 @@ export const Joke = ({ joke }: JokeProps) => {
         {jokeInForeignLang.map((line, i) => (
           <Fragment key={i}>
             <Typography component="span">{line}</Typography>{" "}
-            <Typography component="span" color="success">
-              ({jokeInAppLang[i]})
+            <Typography component="span" color="primary.dark">
+              {jokeInAppLang[i]}
             </Typography>{" "}
           </Fragment>
         ))}
@@ -165,27 +166,17 @@ export const Joke = ({ joke }: JokeProps) => {
         </Dialog>
       )}
 
-      <Stack direction={"row"} spacing={1}>
-        {joke.explanations && (
-          <Button
-            color="primary"
-            onClick={() => setDialogValue("explanation")}
-            size="small"
-            startIcon={<LightbulbOutlined />}
-          >
-            Explanation
-          </Button>
-        )}
-        {joke.terms && (
-          <Button
-            color="primary"
-            onClick={() => setDialogValue("words")}
-            size="small"
-            startIcon={<BookOutlined />}
-          >
-            Words
-          </Button>
-        )}
+      <Stack
+        direction={"row"}
+        flexWrap={"wrap"}
+        useFlexGap
+        maxWidth={300}
+        gap={1}
+      >
+        {difficulty && <Chip label={difficulty} size="small" />}
+        {joke.tags.map((tag) => (
+          <Chip key={tag} label={tagLabels[tag][appLang]} size="small" />
+        ))}
       </Stack>
     </Stack>
   );

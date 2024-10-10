@@ -7,13 +7,8 @@ import { Router } from "./routing";
 import { Container } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-
-const theme = createTheme({
-  colorSchemes: {
-    dark: true,
-  },
-});
+import { ThemeProvider } from "@mui/material/styles";
+import { theme } from "./theme";
 
 export default function App() {
   return (

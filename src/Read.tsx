@@ -72,7 +72,7 @@ export const Read = () => {
         {availableJokes.map((joke) => (
           <Fragment key={joke.id}>
             <Joke joke={joke} />
-            <Divider variant="middle" sx={{ my: 6 }} />
+            <Divider sx={{ my: 6 }} />
           </Fragment>
         ))}
       </List>
