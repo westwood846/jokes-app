@@ -4,19 +4,23 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import "./core/styles.css";
 import { Router } from "./core/routing";
-import { Container } from "@mui/material";
+import { Container, useMediaQuery } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./core/theme";
+import { DesktopNav, MobileNav } from "./core/nav";
 
 export default function App() {
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Container maxWidth="xs" sx={{ pt: 2, pb: 8 }}>
+      {!isMobile && <DesktopNav />}
+      <Container maxWidth="sm" sx={{ pt: 2, pb: 8 }}>
         <Router />
       </Container>
+      {isMobile && <MobileNav />}
     </ThemeProvider>
   );
 }

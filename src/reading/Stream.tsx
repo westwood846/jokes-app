@@ -32,8 +32,6 @@ export const Stream = () => {
       )
     );
 
-  const { setPage } = useCurrentPage();
-
   return (
     <Stack spacing={2}>
       <Stack
@@ -44,9 +42,6 @@ export const Stream = () => {
         <Typography variant="h4" component="h1">
           Stream
         </Typography>
-        <IconButton onClick={() => setPage("settings")} title="Settings">
-          <Settings />
-        </IconButton>
       </Stack>
 
       <Stack
