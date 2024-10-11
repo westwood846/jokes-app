@@ -1,21 +1,19 @@
-import { Settings, PlayCircle, GTranslate, Share } from "@mui/icons-material";
+import { Settings } from "@mui/icons-material";
 import {
   Stack,
   Typography,
   IconButton,
   Chip,
-  Alert,
-  Box,
   List,
   Divider,
 } from "@mui/material";
 import { Fragment, useState } from "react";
-import { IJoke, jokes, tagLabels } from "./jokes";
-import { useLangs } from "./lang";
-import { useCurrentPage } from "./routing";
+import { jokes, tagLabels } from "../jokes";
+import { useLangs } from "../lang";
+import { useCurrentPage } from "../core/routing";
 import { Joke } from "./Joke";
 
-export const Read = () => {
+export const Stream = () => {
   const { appLang, foreignLang } = useLangs();
 
   const [activeTags, setActiveTags] = useState<string[]>([]);
@@ -44,7 +42,7 @@ export const Read = () => {
         alignItems={"center"}
       >
         <Typography variant="h4" component="h1">
-          Read
+          Stream
         </Typography>
         <IconButton onClick={() => setPage("settings")} title="Settings">
           <Settings />

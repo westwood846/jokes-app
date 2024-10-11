@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { useLangs, useChangeLang, langs, Lang } from "./lang";
-import { useCurrentPage } from "./routing";
+import { useCurrentPage } from "./core/routing";
 
 export const Settings = () => {
   const { appLang, foreignLang } = useLangs();
@@ -28,7 +28,7 @@ export const Settings = () => {
         <Typography variant="h4" component="h1">
           Settings
         </Typography>
-        <IconButton onClick={() => setPage("read")} title="Close settings">
+        <IconButton onClick={() => setPage("stream")} title="Close settings">
           <Close />
         </IconButton>
       </Stack>

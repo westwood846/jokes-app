@@ -11,8 +11,8 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { IJoke, tagLabels } from "./jokes";
-import { useLangs } from "./lang";
+import { IJoke, tagLabels } from "../jokes";
+import { useLangs } from "../lang";
 import {
   BookOutlined,
   LightbulbOutlined,
