@@ -1,6 +1,6 @@
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { Stream } from "../reading/Stream";
-import { Settings } from "../Settings";
+import { Settings } from "../settings/Settings";
 import { Alert, Container } from "@mui/material";
 
 const routes = {
