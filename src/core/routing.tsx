@@ -2,8 +2,10 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 import { Stream } from "../reading/Stream";
 import { Settings } from "../settings/Settings";
 import { Alert, Container } from "@mui/material";
+import { Onboarding } from "../Onboarding";
 
 const routes = {
+  onboarding: <Onboarding />,
   stream: <Stream />,
   settings: <Settings />,
 } as const;
@@ -20,8 +22,10 @@ export const useCurrentPage = () => {
 export const Router = () => {
   const { page, setPage } = useCurrentPage();
 
-  if (page === "stream") return <Stream />;
-  if (page === "settings") return <Settings />;
+  const element = routes[page];
+
+  if (element) return element;
+
   return (
     <Container>
       <Alert severity="error">Unknown page: {page}</Alert>
