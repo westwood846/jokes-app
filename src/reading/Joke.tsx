@@ -21,6 +21,7 @@ import {
   VolumeUp,
 } from "@mui/icons-material";
 import { Fragment, useState } from "react";
+import { SquarishSwitch } from "../core/SquarishSwitch";
 
 interface JokeProps {
   joke: IJoke;
@@ -89,9 +90,11 @@ export const Joke = ({ joke }: JokeProps) => {
           >
             <VolumeUp />
           </IconButton>
-          <IconButton title={`Toggle joke translation`} variant="outlined">
-            <TranslateOutlined />
-          </IconButton>
+          <SquarishSwitch
+            title={`Toggle joke translation`}
+            icon={<TranslateOutlined />}
+            checkedIcon={<TranslateOutlined />}
+          />
           <IconButton
             title={`Explain words`}
             variant="outlined"
