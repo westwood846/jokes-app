@@ -3,6 +3,13 @@ import { CEFR, Lang } from "./lang";
 export type LangMap = { [key in Lang]?: string };
 export type LangArray = { [key in Lang]?: string[] };
 
+export interface Word {
+  term: LangMap;
+  difficulty: CEFR;
+  definitions: LangMap;
+  image?: string;
+}
+
 export interface IJoke {
   id: string;
   tags: string[];
@@ -10,11 +17,7 @@ export interface IJoke {
   lang: Lang | null;
   title: LangMap;
   translations: LangArray;
-  terms?: {
-    term: LangMap;
-    difficulty: CEFR;
-    definitions: LangMap;
-  }[];
+  terms?: Word[];
   explanations?: LangMap;
 }
 
@@ -62,6 +65,7 @@ export const jokes: IJoke[] = [
           de: "Ein kleines Tier mit Stacheln auf dem Rücken.",
           en: "A small animal with spikes on its back.",
         },
+        image: "words/hedgehog.png",
       },
       {
         term: {
@@ -73,6 +77,7 @@ export const jokes: IJoke[] = [
           de: "Ein großes Fahrzeug, das viele Menschen transportieren kann.",
           en: "A large vehicle that can transport many people.",
         },
+        image: "words/forest.png",
       },
     ],
     explanations: {

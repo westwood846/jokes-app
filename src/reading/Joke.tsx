@@ -24,6 +24,7 @@ import {
 } from "@mui/icons-material";
 import { Fragment, useState } from "react";
 import { SquarishSwitch } from "../core/SquarishSwitch";
+import { WordCard } from "./WordCard";
 
 interface JokeProps {
   joke: IJoke;
@@ -104,6 +105,7 @@ export const Joke = ({ joke }: JokeProps) => {
             title={`Explain joke"`}
             variant="primary"
             onClick={() => setDialogValue("explanation")}
+            disabled={!joke.explanations?.[appLang] && !joke.terms}
           >
             <LightbulbOutlined />
           </IconButton>
@@ -124,53 +126,40 @@ export const Joke = ({ joke }: JokeProps) => {
         ))}
       </div>
 
-      {joke.terms && (
-        <Dialog
-          open={dialogValue === "explanation"}
-          onClose={() => setDialogValue(null)}
-          fullScreen={isMobile}
-        >
-          <DialogTitle sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-            <LightbulbOutlined />
-            <Box component={"span"} sx={{ flex: 1 }}>
-              Explain
-            </Box>
-            {isMobile && (
-              <IconButton onClick={() => setDialogValue(null)}>
-                <Close />
-              </IconButton>
-            )}
-          </DialogTitle>
-          <DialogContent>
-            <Stack component={Stack} spacing={4}>
-              <Typography color="primary.dark">
-                {joke.explanations?.[appLang]}
-              </Typography>
-              <Stack spacing={1.5} component="dl" sx={{ my: 0 }}>
-                {joke.terms.map((term) => (
-                  <div key={term.term[appLang]}>
-                    <Typography
-                      fontWeight={"bold"}
-                      component={"dt"}
-                      sx={{ display: "inline" }}
-                    >
-                      {term.term[foreignLang]}:{" "}
-                    </Typography>
-                    <Typography component={"dd"} sx={{ display: "inline" }}>
-                      {term.definitions[foreignLang]}
-                    </Typography>
-                  </div>
-                ))}
-              </Stack>
-            </Stack>
-          </DialogContent>
-          {!isMobile && (
-            <DialogActions>
-              <Button onClick={() => setDialogValue(null)}>Close</Button>
-            </DialogActions>
+      <Dialog
+        open={dialogValue === "explanation"}
+        onClose={() => setDialogValue(null)}
+        fullScreen={isMobile}
+      >
+        <DialogTitle sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+          <LightbulbOutlined />
+          <Box component={"span"} sx={{ flex: 1 }}>
+            Explain
+          </Box>
+          {isMobile && (
+            <IconButton onClick={() => setDialogValue(null)}>
+              <Close />
+            </IconButton>
           )}
-        </Dialog>
-      )}
+        </DialogTitle>
+        <DialogContent>
+          <Stack component={Stack} spacing={4}>
+            <Typography color="primary.dark">
+              {joke.explanations?.[appLang]}
+            </Typography>
+            <Stack spacing={1.5} component="dl" sx={{ my: 0 }}>
+              {joke.terms?.map((term) => (
+                <WordCard key={term.term[appLang]} word={term} />
+              ))}
+            </Stack>
+          </Stack>
+        </DialogContent>
+        {!isMobile && (
+          <DialogActions>
+            <Button onClick={() => setDialogValue(null)}>Close</Button>
+          </DialogActions>
+        )}
+      </Dialog>
 
       <Stack
         direction={"row"}
