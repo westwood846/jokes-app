@@ -10,11 +10,13 @@ import {
   IconButton,
   Stack,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { IJoke, tagLabels } from "../jokes";
 import { useLangs } from "../lang";
 import {
-  BookOutlined,
+  Close,
   LightbulbOutlined,
   Share,
   TranslateOutlined,
@@ -61,6 +63,9 @@ export const Joke = ({ joke }: JokeProps) => {
     );
   }
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Stack spacing={2}>
       {joke.image && (
@@ -96,13 +101,6 @@ export const Joke = ({ joke }: JokeProps) => {
             checkedIcon={<TranslateOutlined />}
           />
           <IconButton
-            title={`Explain words`}
-            variant="outlined"
-            onClick={() => setDialogValue("words")}
-          >
-            <BookOutlined />
-          </IconButton>
-          <IconButton
             title={`Explain joke"`}
             variant="primary"
             onClick={() => setDialogValue("explanation")}
@@ -126,46 +124,51 @@ export const Joke = ({ joke }: JokeProps) => {
         ))}
       </div>
 
-      {joke.explanations && (
+      {joke.terms && (
         <Dialog
           open={dialogValue === "explanation"}
           onClose={() => setDialogValue(null)}
+          fullScreen={isMobile}
         >
-          <DialogTitle>Explanation</DialogTitle>
-          <DialogContent>{joke.explanations?.[appLang]}</DialogContent>
-          <DialogActions>
-            <Button onClick={() => setDialogValue(null)}>Close</Button>
-          </DialogActions>
-        </Dialog>
-      )}
-
-      {joke.terms && (
-        <Dialog
-          open={dialogValue === "words"}
-          onClose={() => setDialogValue(null)}
-        >
-          <DialogTitle>Words</DialogTitle>
+          <DialogTitle sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+            <LightbulbOutlined />
+            <Box component={"span"} sx={{ flex: 1 }}>
+              Explain
+            </Box>
+            {isMobile && (
+              <IconButton onClick={() => setDialogValue(null)}>
+                <Close />
+              </IconButton>
+            )}
+          </DialogTitle>
           <DialogContent>
-            <Stack spacing={1.5} component="dl" sx={{ my: 0 }}>
-              {joke.terms.map((term) => (
-                <div key={term.term[appLang]}>
-                  <Typography
-                    fontWeight={"bold"}
-                    component={"dt"}
-                    sx={{ display: "inline" }}
-                  >
-                    {term.term[foreignLang]}:{" "}
-                  </Typography>
-                  <Typography component={"dd"} sx={{ display: "inline" }}>
-                    {term.definitions[foreignLang]}
-                  </Typography>
-                </div>
-              ))}
+            <Stack component={Stack} spacing={4}>
+              <Typography color="primary.dark">
+                {joke.explanations?.[appLang]}
+              </Typography>
+              <Stack spacing={1.5} component="dl" sx={{ my: 0 }}>
+                {joke.terms.map((term) => (
+                  <div key={term.term[appLang]}>
+                    <Typography
+                      fontWeight={"bold"}
+                      component={"dt"}
+                      sx={{ display: "inline" }}
+                    >
+                      {term.term[foreignLang]}:{" "}
+                    </Typography>
+                    <Typography component={"dd"} sx={{ display: "inline" }}>
+                      {term.definitions[foreignLang]}
+                    </Typography>
+                  </div>
+                ))}
+              </Stack>
             </Stack>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setDialogValue(null)}>Close</Button>
-          </DialogActions>
+          {!isMobile && (
+            <DialogActions>
+              <Button onClick={() => setDialogValue(null)}>Close</Button>
+            </DialogActions>
+          )}
         </Dialog>
       )}
 
