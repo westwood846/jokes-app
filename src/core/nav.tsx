@@ -10,6 +10,7 @@ import {
   Toolbar,
 } from "@mui/material";
 import {
+  AdminPanelSettings,
   CategoryOutlined,
   FitnessCenterOutlined,
   NewspaperOutlined,
@@ -33,12 +34,13 @@ export const DesktopNav = () => {
           <Box sx={{ flexGrow: 1 }}>
             <Tabs
               value={pathname.replaceAll("/", "")}
-              onChange={(e, tab) => router.push(tab)}
+              onChange={(e, tab) => router.push(`/${tab}`)}
             >
               <Tab label="Stream" value="stream" />
               <Tab label="Themes" value="settings" />
               <Tab label="Train" value="train" />
               <Tab label="You" value="profile" />
+              <Tab label="Admin" value="admin" />
             </Tabs>
           </Box>
           <IconButton onClick={() => router.push("/settings")} title="Settings">
@@ -64,12 +66,13 @@ export const MobileNav = () => {
         <Toolbar sx={{ justifyContent: "center" }}>
           <Tabs
             value={pathname.replaceAll("/", "")}
-            onChange={(e, tab) => router.push(tab)}
+            onChange={(e, tab) => router.push(`/${tab}`)}
           >
             <Tab icon={<NewspaperOutlined />} value="stream" />
             <Tab icon={<CategoryOutlined />} value="settings" />
             <Tab icon={<FitnessCenterOutlined />} value="train" />
             <Tab icon={<Tune />} value="profile" />
+            <Tab icon={<AdminPanelSettings />} value="admin" />
           </Tabs>
         </Toolbar>
       </Container>

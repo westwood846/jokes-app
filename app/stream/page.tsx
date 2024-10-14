@@ -1,6 +1,7 @@
 "use client";
 
 import { Stream } from "@/reading/Stream";
+import { Container } from "@mui/material";
 import { useIsClient } from "@uidotdev/usehooks";
 
 export default function Page() {
@@ -8,5 +9,9 @@ export default function Page() {
   const isClient = useIsClient();
   if (isClient === false) return null;
 
-  return <Stream />;
+  return (
+    <Container maxWidth="sm" sx={{ pt: 2, pb: 8 }}>
+      <Stream />
+    </Container>
+  );
 }

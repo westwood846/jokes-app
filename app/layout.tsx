@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-// import { Container, useMediaQuery, useTheme } from "@mui/material";
-import { Container } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import { DesktopNav, MobileNav } from "@/core/nav";
@@ -32,11 +30,9 @@ export default function RootLayout({
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            {<DesktopNav />}
-            <Container maxWidth="sm" sx={{ pt: 2, pb: 8 }}>
-              {children}
-            </Container>
-            {<MobileNav />}
+            <DesktopNav />
+            {children}
+            <MobileNav />
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>
