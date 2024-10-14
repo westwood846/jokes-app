@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Alert,
   Box,
@@ -25,6 +27,7 @@ import {
 import { Fragment, useState } from "react";
 import { SquarishSwitch } from "../core/SquarishSwitch";
 import { WordCard } from "./WordCard";
+import Image from "next/image";
 
 interface JokeProps {
   joke: IJoke;
@@ -33,6 +36,8 @@ interface JokeProps {
 type DialogValues = "explanation" | "words";
 
 export const Joke = ({ joke }: JokeProps) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const { foreignLang, appLang } = useLangs();
 
   const [dialogValue, setDialogValue] = useState<DialogValues | null>(null);
@@ -64,21 +69,20 @@ export const Joke = ({ joke }: JokeProps) => {
     );
   }
 
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
   return (
     <Stack spacing={2}>
       {joke.image && (
         <Box
-          component="img"
-          src={joke.image}
-          alt={titleInAppLang}
           sx={{
+            width: "100%",
+            height: 300,
             borderRadius: 10,
             boxShadow: "3px 3px 50px 8px rgba(255,198,0,0.15)",
+            position: "relative",
           }}
-        />
+        >
+          <Image src={joke.image} alt={titleInAppLang} fill objectFit="cover" />
+        </Box>
       )}
 
       <Stack>

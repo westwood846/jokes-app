@@ -1,3 +1,5 @@
+"use client";
+
 import {
   AppBar,
   Box,
@@ -7,7 +9,6 @@ import {
   Tabs,
   Toolbar,
 } from "@mui/material";
-import { useCurrentPage } from "./routing";
 import {
   CategoryOutlined,
   FitnessCenterOutlined,
@@ -15,23 +16,32 @@ import {
   Settings,
   Tune,
 } from "@mui/icons-material";
+import { usePathname, useRouter } from "next/navigation";
 
 export const DesktopNav = () => {
-  const { setPage, page } = useCurrentPage();
+  const router = useRouter();
+  const pathname = usePathname();
 
   return (
-    <AppBar position="static" color="transparent">
+    <AppBar
+      position="static"
+      color="transparent"
+      sx={{ display: { xs: "none", md: "inherit" } }}
+    >
       <Container maxWidth="sm" disableGutters>
         <Toolbar>
           <Box sx={{ flexGrow: 1 }}>
-            <Tabs value={page} onChange={(e, tab) => setPage(tab)}>
+            <Tabs
+              value={pathname.replaceAll("/", "")}
+              onChange={(e, tab) => router.push(tab)}
+            >
               <Tab label="Stream" value="stream" />
               <Tab label="Themes" value="settings" />
               <Tab label="Train" value="train" />
               <Tab label="You" value="profile" />
             </Tabs>
           </Box>
-          <IconButton onClick={() => setPage("settings")} title="Settings">
+          <IconButton onClick={() => router.push("/settings")} title="Settings">
             <Settings />
           </IconButton>
         </Toolbar>
@@ -41,13 +51,21 @@ export const DesktopNav = () => {
 };
 
 export const MobileNav = () => {
-  const { setPage, page } = useCurrentPage();
+  const router = useRouter();
+  const pathname = usePathname();
 
   return (
-    <AppBar position="sticky" color="default" sx={{ bottom: 0 }}>
+    <AppBar
+      position="sticky"
+      color="default"
+      sx={{ bottom: 0, display: { xs: "inherit", md: "none" } }}
+    >
       <Container disableGutters>
         <Toolbar sx={{ justifyContent: "center" }}>
-          <Tabs value={page} onChange={(e, tab) => setPage(tab)}>
+          <Tabs
+            value={pathname.replaceAll("/", "")}
+            onChange={(e, tab) => router.push(tab)}
+          >
             <Tab icon={<NewspaperOutlined />} value="stream" />
             <Tab icon={<CategoryOutlined />} value="settings" />
             <Tab icon={<FitnessCenterOutlined />} value="train" />

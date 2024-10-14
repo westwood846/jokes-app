@@ -1,11 +1,16 @@
+"use client";
+
 import { IconButton, Stack, Typography } from "@mui/material";
 import { Close } from "@mui/icons-material";
-import { useCurrentPage } from "../core/routing";
-import { AppLangChooser } from "./AppLangChooser";
-import { ForeignLangChooser } from "./ForeignLangChooser";
+import { AppLangChooser } from "@/settings/AppLangChooser";
+import { ForeignLangChooser } from "@/settings/ForeignLangChooser";
+import Link from "next/link";
+import { useIsClient } from "@uidotdev/usehooks";
 
-export const Settings = () => {
-  const { setPage } = useCurrentPage();
+export default function Settings() {
+  // TODO: This is horrible
+  const isClient = useIsClient();
+  if (isClient === false) return null;
 
   return (
     <Stack spacing={4}>
@@ -17,7 +22,7 @@ export const Settings = () => {
         <Typography variant="h4" component="h1">
           Settings
         </Typography>
-        <IconButton onClick={() => setPage("stream")} title="Close settings">
+        <IconButton component={Link} href="/stream" title="Close settings">
           <Close />
         </IconButton>
       </Stack>
@@ -37,4 +42,4 @@ export const Settings = () => {
       </Stack>
     </Stack>
   );
-};
+}

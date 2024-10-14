@@ -1,10 +1,15 @@
-import { Button, Stack, Typography } from "@mui/material";
-import { AppLangChooser } from "./settings/AppLangChooser";
-import { ForeignLangChooser } from "./settings/ForeignLangChooser";
-import { useCurrentPage } from "./core/routing";
+"use client";
 
-export const Onboarding = () => {
-  const { setPage } = useCurrentPage();
+import { Button, Stack, Typography } from "@mui/material";
+import { AppLangChooser } from "@/settings/AppLangChooser";
+import { ForeignLangChooser } from "@/settings/ForeignLangChooser";
+import Link from "next/link";
+import { useIsClient } from "@uidotdev/usehooks";
+
+export default function Page() {
+  // TODO: This is horrible
+  const isClient = useIsClient();
+  if (isClient === false) return null;
 
   return (
     <Stack spacing={4} textAlign={"center"}>
@@ -22,9 +27,9 @@ export const Onboarding = () => {
         <ForeignLangChooser />
       </Stack>
 
-      <Button fullWidth variant="contained" onClick={() => setPage("stream")}>
+      <Button fullWidth variant="contained" component={Link} href="/stream">
         Get Started
       </Button>
     </Stack>
   );
-};
+}

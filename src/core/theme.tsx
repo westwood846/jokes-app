@@ -1,3 +1,5 @@
+"use client";
+
 import { createTheme } from "@mui/material/styles";
 
 declare module "@mui/material/IconButton" {
@@ -7,6 +9,9 @@ declare module "@mui/material/IconButton" {
 }
 
 export let theme = createTheme({
+  typography: {
+    fontFamily: "var(--font-roboto)",
+  },
   colorSchemes: {
     dark: true,
   },

@@ -1,3 +1,5 @@
+"use client";
+
 import {
   ButtonBase,
   Card,
@@ -8,6 +10,7 @@ import {
 import { Word } from "../jokes";
 import { useLangs } from "../lang";
 import { FitnessCenterOutlined } from "@mui/icons-material";
+import Image from "next/image";
 
 interface WordCardProps {
   word: Word;
@@ -17,6 +20,9 @@ export const WordCard = ({ word }: WordCardProps) => {
   const { foreignLang, appLang } = useLangs();
   const termInAppLang = word.term[appLang];
   const termInForeignLang = word.term[foreignLang];
+
+  if (!termInAppLang) throw new Error("Term is missing in app language.");
+
   return (
     <Card
       variant="outlined"
@@ -28,12 +34,14 @@ export const WordCard = ({ word }: WordCardProps) => {
       }}
     >
       {word.image && (
-        <CardMedia
-          component="img"
-          sx={{ maxWidth: 100 }}
-          src={word.image}
-          alt={termInAppLang}
-        />
+        <CardMedia sx={{ width: 100, height: 100, position: "relative" }}>
+          <Image
+            src={word.image}
+            alt={termInAppLang}
+            width={100}
+            height={100}
+          />
+        </CardMedia>
       )}
       <CardContent
         sx={{

@@ -1,17 +1,8 @@
-import { Settings } from "@mui/icons-material";
-import {
-  Stack,
-  Typography,
-  IconButton,
-  Chip,
-  List,
-  Divider,
-} from "@mui/material";
+import { Stack, Typography, Chip, List, Divider } from "@mui/material";
 import { Fragment, useState } from "react";
-import { jokes, tagLabels } from "../jokes";
-import { useLangs } from "../lang";
-import { useCurrentPage } from "../core/routing";
-import { Joke } from "./Joke";
+import { jokes, tagLabels } from "@/jokes";
+import { useLangs } from "@/lang";
+import { Joke } from "@/reading/Joke";
 
 export const Stream = () => {
   const { appLang, foreignLang } = useLangs();

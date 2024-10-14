@@ -25,7 +25,7 @@ export const jokes: IJoke[] = [
   {
     id: "2",
     tags: ["animals"],
-    image: "hedgehog.webp",
+    image: "/hedgehog.webp",
     lang: null,
     title: {
       de: "Zahnstocher im Wald",
@@ -65,7 +65,7 @@ export const jokes: IJoke[] = [
           de: "Ein kleines Tier mit Stacheln auf dem Rücken.",
           en: "A small animal with spikes on its back.",
         },
-        image: "words/hedgehog.png",
+        image: "/words/hedgehog.png",
       },
       {
         term: {
@@ -77,7 +77,7 @@ export const jokes: IJoke[] = [
           de: "Ein großes Fahrzeug, das viele Menschen transportieren kann.",
           en: "A large vehicle that can transport many people.",
         },
-        image: "words/forest.png",
+        image: "/words/forest.png",
       },
     ],
     explanations: {
@@ -88,7 +88,7 @@ export const jokes: IJoke[] = [
   {
     id: "1",
     tags: ["animals", "stereotypes"],
-    image: "irishman.png",
+    image: "/irishman.png",
     lang: null,
     title: {
       de: "Deutsche Effizienz",
@@ -134,7 +134,7 @@ export const jokes: IJoke[] = [
   {
     id: "3",
     tags: ["animals", "family"],
-    image: "grandpas-wifi.webp",
+    image: "/grandpas-wifi.webp",
     lang: "de",
     title: {
       de: "Router und Opa",
@@ -177,7 +177,7 @@ export const jokes: IJoke[] = [
   {
     id: "5",
     tags: ["animals", "family"],
-    image: "irishman.png",
+    image: "/irishman.png",
     lang: "de",
     title: {
       de: "Chuck Norris",
@@ -194,7 +194,7 @@ export const jokes: IJoke[] = [
   {
     id: "6",
     tags: ["animals"],
-    image: "japanese.webp",
+    image: "/japanese.webp",
     lang: null,
     title: {
       de: "Kamikaze",
@@ -227,7 +227,7 @@ export const jokes: IJoke[] = [
   {
     id: "7",
     tags: ["animals"],
-    image: "penguins.png",
+    image: "/penguins.png",
     lang: null,
     title: {
       de: "Schweiz",

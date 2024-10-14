@@ -1,3 +1,5 @@
+"use client";
+
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { useLangs, useChangeLang, Lang, langs } from "../lang";
 
