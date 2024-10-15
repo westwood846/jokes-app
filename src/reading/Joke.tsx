@@ -81,7 +81,12 @@ export const Joke = ({ joke }: JokeProps) => {
             position: "relative",
           }}
         >
-          <Image src={joke.image} alt={titleInAppLang} fill objectFit="cover" />
+          <Image
+            src={joke.image}
+            alt={titleInAppLang}
+            fill
+            style={{ objectFit: "cover" }}
+          />
         </Box>
       )}
 

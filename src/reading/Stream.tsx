@@ -27,8 +27,6 @@ export const Stream = () => {
   //   )
   // );
 
-  console.log(availableJokes);
-
   return (
     <Stack spacing={2}>
       <Stack
