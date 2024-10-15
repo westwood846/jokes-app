@@ -33,7 +33,7 @@ export const DesktopNav = () => {
         <Toolbar>
           <Box sx={{ flexGrow: 1 }}>
             <Tabs
-              value={pathname.replaceAll("/", "")}
+              value={pathname.split("/")[1]}
               onChange={(e, tab) => router.push(`/${tab}`)}
             >
               <Tab label="Stream" value="stream" />
@@ -65,7 +65,7 @@ export const MobileNav = () => {
       <Container disableGutters>
         <Toolbar sx={{ justifyContent: "center" }}>
           <Tabs
-            value={pathname.replaceAll("/", "")}
+            value={pathname.split("/")[1]}
             onChange={(e, tab) => router.push(`/${tab}`)}
           >
             <Tab icon={<NewspaperOutlined />} value="stream" />
