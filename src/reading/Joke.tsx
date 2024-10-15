@@ -120,14 +120,7 @@ export const Joke = ({ joke }: JokeProps) => {
       </Stack>
 
       <div>
-        {jokeInForeignLang.map((line, i) => (
-          <Fragment key={i}>
-            <Typography component="span">{line}</Typography>{" "}
-            <Typography component="span" color="primary.dark">
-              {jokeInAppLang[i]}
-            </Typography>{" "}
-          </Fragment>
-        ))}
+        <JokeBody inAppLang={jokeInAppLang} inForeignLang={jokeInForeignLang} />
       </div>
 
       <Dialog
@@ -178,5 +171,66 @@ export const Joke = ({ joke }: JokeProps) => {
         ))}
       </Stack>
     </Stack>
+  );
+};
+
+import ReactMarkdown from "react-markdown";
+
+interface JokeBodyProps {
+  inAppLang: string[];
+  inForeignLang: string[];
+}
+
+const JokeBody = ({ inAppLang, inForeignLang }: JokeBodyProps) => {
+  const paragraphsInForeignLang = [] as string[][];
+  const paragraphsInAppLang = [] as string[][];
+
+  let currentParagraphInForeignLang = [] as string[];
+  let currentParagraphInAppLang = [] as string[];
+  for (let i = 0; i < inForeignLang.length; i++) {
+    const fragmentInForeignLang = inForeignLang[i];
+    const fragmentInAppLang = inAppLang[i];
+
+    if (fragmentInForeignLang === "PARAGRAPH_END") {
+      paragraphsInForeignLang.push(currentParagraphInForeignLang);
+      paragraphsInAppLang.push(currentParagraphInAppLang);
+      currentParagraphInForeignLang = [];
+      currentParagraphInAppLang = [];
+    } else {
+      currentParagraphInForeignLang.push(fragmentInForeignLang);
+      currentParagraphInAppLang.push(fragmentInAppLang);
+    }
+  }
+
+  return paragraphsInForeignLang.map((paragraphInForeignLang, i) => (
+    <JokeParagraph
+      key={i}
+      inForeignLang={paragraphInForeignLang}
+      inAppLang={paragraphsInAppLang[i]}
+    />
+  ));
+};
+
+interface JokeParagraph {
+  inAppLang: string[];
+  inForeignLang: string[];
+}
+
+const JokeParagraph = ({ inAppLang, inForeignLang }: JokeBodyProps) => {
+  return (
+    <p>
+      {inForeignLang.map((line, i) => (
+        <Fragment key={i}>
+          <Typography component="span">
+            <ReactMarkdown components={{ p: "span" }}>{line}</ReactMarkdown>
+          </Typography>{" "}
+          <Typography component="span" color="primary.dark">
+            <ReactMarkdown components={{ p: "span" }}>
+              {inAppLang[i]}
+            </ReactMarkdown>
+          </Typography>{" "}
+        </Fragment>
+      ))}
+    </p>
   );
 };

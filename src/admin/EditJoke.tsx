@@ -1,9 +1,9 @@
 "use client";
 
-import { IJoke } from "@/jokes";
+import { IJoke, tags } from "@/jokes";
 import { Lang } from "@/lang";
 import { Joke } from "@/reading/Joke";
-import { Box, Select, Stack, TextField, Typography } from "@mui/material";
+import { Autocomplete, Box, Stack, TextField, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 
 interface EditJokeProps {
@@ -29,7 +29,10 @@ const fromFormValues = (values: FormValues): IJoke => ({
   translations: Object.fromEntries(
     Object.entries(values.translations).map(([lang, translation]) => [
       lang as Lang,
-      translation.split(/(?<=[\.:!?])\s/),
+      // translation.split(/(?<=[\.:!?])\s/),
+      translation
+        .split(/(?<=[\.:!?])\n\n/)
+        .flatMap((p) => [...p.split(/(?<=[\.:!?])\s/), "PARAGRAPH_END"]),
     ])
   ),
 });
@@ -38,9 +41,9 @@ export const EditJoke = ({ originalJoke }: EditJokeProps) => {
   const form = useForm({ defaultValues: toFormValues(originalJoke) });
   return (
     <Stack direction="row" spacing={8}>
-      <Stack spacing={4} flex={1}>
+      <Stack spacing={2} flex={1}>
         <Typography variant="h5">Title</Typography>
-        <Stack spacing={2}>
+        <Stack spacing={2} pb={4}>
           {(Object.keys(originalJoke.title) as Lang[]).map((lang) => (
             <TextField
               key={lang}
@@ -50,8 +53,19 @@ export const EditJoke = ({ originalJoke }: EditJokeProps) => {
             />
           ))}
         </Stack>
-        <Typography variant="h5">Translations</Typography>
-        <Stack spacing={2}>
+
+        <Stack spacing={2} pb={4}>
+          <Stack>
+            <Typography variant="h5">Translations</Typography>
+            <Typography variant="body2" color="text.secondary">
+              Jokes are written in markdown. In this editor, each sentence will
+              be considered a fragment. Sentences are terminated by a period,
+              exclamation mark, question mark, ellipsis, colon, semicolon or
+              em-dash. Newlines are ignored, but double-newlines will start a
+              new paragraph.
+            </Typography>
+          </Stack>
+
           {(Object.keys(originalJoke.translations) as Lang[]).map((lang) => (
             <TextField
               key={lang}
@@ -63,8 +77,9 @@ export const EditJoke = ({ originalJoke }: EditJokeProps) => {
             />
           ))}
         </Stack>
+
         <Typography variant="h5">Explanation</Typography>
-        <Stack spacing={2}>
+        <Stack spacing={2} pb={4}>
           {(Object.keys(originalJoke.explanations || []) as Lang[]).map(
             (lang) => (
               <TextField
@@ -78,21 +93,23 @@ export const EditJoke = ({ originalJoke }: EditJokeProps) => {
             )
           )}
         </Stack>
+
         <Typography variant="h5">Meta</Typography>
-        <TextField label="Image URL" {...form.register("image")} fullWidth />
-        {/* tags */}
-        <Select
-          label="Tags"
-          // {...form.register("tags")}
-          multiple
-          native
-          fullWidth
-        >
-          <option value="funny">Funny</option>
-          <option value="joke">Joke</option>
-          <option value="pun">Pun</option>
-          <option value="dad-joke">Dad joke</option>
-        </Select>
+        <Stack spacing={2} pb={4}>
+          <TextField label="Image URL" {...form.register("image")} fullWidth />
+          <Autocomplete
+            multiple
+            options={tags}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Tags"
+                placeholder="Tags"
+                fullWidth
+              />
+            )}
+          />
+        </Stack>
       </Stack>
       <Box flex={1}>
         <Joke joke={fromFormValues(form.watch())} />
