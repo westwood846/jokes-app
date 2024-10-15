@@ -1,27 +1,9 @@
 "use client";
 
-import {
-  IJoke,
-  PARAGRAPH_DIVIDER,
-  tags,
-  useDeleteJoke,
-  useSaveJoke,
-} from "@/jokes";
-import { Lang, langs } from "@/lang";
+import { IJoke, PARAGRAPH_DIVIDER, useDeleteJoke, useSaveJoke } from "@/jokes";
+import { Lang } from "@/lang";
 import { Joke } from "@/reading/Joke";
-import { Clear } from "@mui/icons-material";
-import {
-  Autocomplete,
-  Box,
-  Button,
-  IconButton,
-  InputAdornment,
-  MenuItem,
-  Select,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
@@ -137,45 +119,7 @@ export const EditJoke = ({ originalJoke }: EditJokeProps) => {
 
         <Typography variant="h5">Meta</Typography>
         <Stack spacing={2} pb={4}>
-          <Select
-            disabled // TODO
-            {...form.register("lang")}
-            label="Language"
-            fullWidth
-            endAdornment={
-              form.watch("lang") && (
-                <InputAdornment sx={{ mr: 3 }} position="end">
-                  <IconButton onClick={() => form.setValue("lang", "")}>
-                    <Clear />
-                  </IconButton>
-                </InputAdornment>
-              )
-            }
-          >
-            {(Object.keys(langs) as Lang[]).map((lang) => (
-              <MenuItem key={lang} value={lang}>
-                {langs[lang]}
-              </MenuItem>
-            ))}
-
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-          </Select>
           <TextField label="Image URL" {...form.register("image")} fullWidth />
-          <Autocomplete
-            disabled // TODO
-            multiple
-            options={tags}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Tags"
-                placeholder="Tags"
-                fullWidth
-              />
-            )}
-          />
         </Stack>
       </Stack>
 
