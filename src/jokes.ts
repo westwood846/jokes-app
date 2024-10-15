@@ -1,4 +1,7 @@
+import { useLocalStorage } from "@uidotdev/usehooks";
 import { CEFR, Lang } from "./lang";
+
+export const PARAGRAPH_DIVIDER = "</ja:p>";
 
 export type LangMap = { [key in Lang]?: string };
 export type LangArray = { [key in Lang]?: string[] };
@@ -97,11 +100,13 @@ export const jokes: IJoke[] = [
     translations: {
       de: [
         "Wie viele Deutsche braucht es um eine Glühbirne zu wechseln?",
+        PARAGRAPH_DIVIDER,
         "Nur einen.",
         "Wir sind effizient und mögen keine Witze.",
       ],
       en: [
         "How many Germans does it take to change a lightbulb?",
+        PARAGRAPH_DIVIDER,
         "Only one.",
         "We are an efficient people, and we don't like jokes.",
       ],
@@ -248,6 +253,28 @@ export const jokes: IJoke[] = [
       en: "The flag of Switzerland has a white cross on a red background, which can be interpreted as a plus sign.",
     },
   },
+  {
+    id: "dab76be1-f257-445b-a92c-8bec1627a1d2",
+    title: {
+      en: "My little piglet",
+      de: "Mein kleines Schwein",
+      ru: "",
+    },
+    translations: {
+      en: ["I think my pig is whistling </ja:p>", "</ja:p>"],
+      de: ["Ich glaub mein Schwein pfeift </ja:p>", "</ja:p>"],
+      ru: ["</ja:p>", "</ja:p>"],
+    },
+    explanations: {
+      en: "It's a very common idiom",
+      de: "Ein typischer Sprichwort",
+      ru: "",
+    },
+    terms: [],
+    tags: [],
+    lang: null,
+    image: "/penguins.png",
+  },
 ];
 
 export const tags = Array.from(new Set(jokes.flatMap((joke) => joke.tags)));
@@ -265,4 +292,29 @@ export const tagLabels: { [tag: string]: LangMap } = {
     de: "Familie",
     en: "Family",
   },
+};
+
+export const JOKES_LS_KEY = "jokes";
+
+export const useJokes = () => {
+  const [jokes] = useLocalStorage<IJoke[]>(JOKES_LS_KEY, []);
+  return jokes;
+};
+
+export const useSaveJoke = () => {
+  const [jokes, setJokes] = useLocalStorage<IJoke[]>(JOKES_LS_KEY, []);
+  const saveJoke = (joke: IJoke) => {
+    const newJokes = jokes.filter((j) => j.id !== joke.id).concat(joke);
+    setJokes(newJokes);
+  };
+  return saveJoke;
+};
+
+export const useDeleteJoke = () => {
+  const [jokes, setJokes] = useLocalStorage<IJoke[]>(JOKES_LS_KEY, []);
+  const deleteJoke = (id: string) => {
+    const newJokes = jokes.filter((j) => j.id !== id);
+    setJokes(newJokes);
+  };
+  return deleteJoke;
 };
