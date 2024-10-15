@@ -3,8 +3,17 @@
 import { EditJoke } from "@/admin/EditJoke";
 import { useJokes } from "@/jokes";
 import { Alert, Container, Stack, Typography } from "@mui/material";
+import { useIsClient } from "@uidotdev/usehooks";
 
 export default function Page({ params }: { params: { id: string } }) {
+  // TODO: This is horrible
+  const isClient = useIsClient();
+  if (isClient === false) return null;
+
+  return <ActualPage params={params} />;
+}
+
+export function ActualPage({ params }: { params: { id: string } }) {
   const { id } = params;
   const jokes = useJokes();
   const joke = jokes.find((joke) => joke.id === id);
