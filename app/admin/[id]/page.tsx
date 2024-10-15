@@ -13,7 +13,7 @@ export default function Page({ params }: { params: { id: string } }) {
   return <ActualPage params={params} />;
 }
 
-export function ActualPage({ params }: { params: { id: string } }) {
+function ActualPage({ params }: { params: { id: string } }) {
   const { id } = params;
   const jokes = useJokes();
   const joke = jokes.find((joke) => joke.id === id);
