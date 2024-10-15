@@ -5,6 +5,7 @@ import { DesktopNav, MobileNav } from "@/core/nav";
 import { theme } from "@/core/theme";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { Roboto } from "next/font/google";
+import { Setup } from "@/setup";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -23,7 +24,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <html lang="en">
       <body className={roboto.variable}>
@@ -33,6 +33,7 @@ export default function RootLayout({
             <DesktopNav />
             {children}
             <MobileNav />
+            <Setup />
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

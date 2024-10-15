@@ -1,9 +1,12 @@
+"use client";
+
 import { EditJoke } from "@/admin/EditJoke";
-import { jokes } from "@/jokes";
+import { useJokes } from "@/jokes";
 import { Alert, Container, Stack, Typography } from "@mui/material";
 
 export default function Page({ params }: { params: { id: string } }) {
   const { id } = params;
+  const jokes = useJokes();
   const joke = jokes.find((joke) => joke.id === id);
 
   if (!joke) {

@@ -15,7 +15,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { IJoke, tagLabels } from "../jokes";
+import { IJoke, PARAGRAPH_DIVIDER, tagLabels } from "../jokes";
 import { useLangs } from "../lang";
 import {
   Close,
@@ -182,6 +182,12 @@ interface JokeBodyProps {
 }
 
 const JokeBody = ({ inAppLang, inForeignLang }: JokeBodyProps) => {
+  if (!inAppLang.some((line) => line === PARAGRAPH_DIVIDER)) {
+    return (
+      <JokeParagraph inAppLang={inAppLang} inForeignLang={inForeignLang} />
+    );
+  }
+
   const paragraphsInForeignLang = [] as string[][];
   const paragraphsInAppLang = [] as string[][];
 
@@ -191,7 +197,7 @@ const JokeBody = ({ inAppLang, inForeignLang }: JokeBodyProps) => {
     const fragmentInForeignLang = inForeignLang[i];
     const fragmentInAppLang = inAppLang[i];
 
-    if (fragmentInForeignLang === "PARAGRAPH_END") {
+    if (fragmentInForeignLang === PARAGRAPH_DIVIDER) {
       paragraphsInForeignLang.push(currentParagraphInForeignLang);
       paragraphsInAppLang.push(currentParagraphInAppLang);
       currentParagraphInForeignLang = [];
@@ -211,12 +217,12 @@ const JokeBody = ({ inAppLang, inForeignLang }: JokeBodyProps) => {
   ));
 };
 
-interface JokeParagraph {
+interface JokeParagraphProps {
   inAppLang: string[];
   inForeignLang: string[];
 }
 
-const JokeParagraph = ({ inAppLang, inForeignLang }: JokeBodyProps) => {
+const JokeParagraph = ({ inAppLang, inForeignLang }: JokeParagraphProps) => {
   return (
     <p>
       {inForeignLang.map((line, i) => (

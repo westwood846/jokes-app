@@ -1,11 +1,13 @@
+"use client";
+
 import { Stack, Typography, Chip, List, Divider } from "@mui/material";
 import { Fragment, useState } from "react";
-import { jokes, tagLabels } from "@/jokes";
+import { tagLabels, useJokes } from "@/jokes";
 import { useLangs } from "@/lang";
 import { Joke } from "@/reading/Joke";
 
 export const Stream = () => {
-  const { appLang, foreignLang } = useLangs();
+  const { appLang } = useLangs();
 
   const [activeTags, setActiveTags] = useState<string[]>([]);
   const toggleTag = (tag: string) =>
@@ -13,15 +15,19 @@ export const Stream = () => {
       tags.includes(tag) ? tags.filter((t) => t !== tag) : [...tags, tag]
     );
 
-  const availableJokes = jokes
-    .filter(
-      (joke) => joke.translations[foreignLang] && joke.translations[appLang]
-    )
-    .filter((joke) =>
-      joke.tags.some(
-        (tag) => activeTags.includes(tag) || activeTags.length === 0
-      )
-    );
+  const jokes = useJokes();
+
+  const availableJokes = jokes;
+  // .filter(
+  //   (joke) => joke.translations[foreignLang] && joke.translations[appLang]
+  // )
+  // .filter((joke) =>
+  //   joke.tags.some(
+  //     (tag) => activeTags.includes(tag) || activeTags.length === 0
+  //   )
+  // );
+
+  console.log(availableJokes);
 
   return (
     <Stack spacing={2}>

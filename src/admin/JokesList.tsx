@@ -1,4 +1,6 @@
-import { jokes } from "@/jokes";
+"use client";
+
+import { useJokes } from "@/jokes";
 import {
   Avatar,
   List,
@@ -10,6 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const JokesList = () => {
+  const jokes = useJokes();
   return (
     <List>
       {jokes.map((joke) => (
