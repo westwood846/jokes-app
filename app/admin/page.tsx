@@ -4,6 +4,7 @@ import { JokesList } from "@/admin/JokesList";
 import { Box, Button, Container, Stack } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { IJoke, useSaveJoke } from "@/jokes";
+import { useIsClient } from "@uidotdev/usehooks";
 
 const useGetNewJoke = () => {
   return () => {
@@ -29,6 +30,14 @@ const useGetNewJoke = () => {
 };
 
 export default function Page() {
+  // TODO: This is horrible
+  const isClient = useIsClient();
+  if (isClient === false) return null;
+
+  return <ActualPage />;
+}
+
+function ActualPage() {
   const { push } = useRouter();
   const getNewJoke = useGetNewJoke();
   const saveJoke = useSaveJoke();
