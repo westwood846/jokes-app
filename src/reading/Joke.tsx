@@ -86,6 +86,7 @@ export const Joke = ({ joke }: JokeProps) => {
             alt={titleInAppLang}
             fill
             style={{ objectFit: "cover" }}
+            sizes="(max-width: 9999px) 828px"
           />
         </Box>
       )}
