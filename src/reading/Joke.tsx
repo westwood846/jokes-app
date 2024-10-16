@@ -4,6 +4,9 @@ import {
   Alert,
   Box,
   Button,
+  Card,
+  CardActions,
+  CardContent,
   Chip,
   Dialog,
   DialogActions,
@@ -15,7 +18,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { IJoke, PARAGRAPH_DIVIDER, tagLabels } from "../jokes";
+import { IJoke, isShort, PARAGRAPH_DIVIDER, tagLabels } from "../jokes";
 import { useLangs } from "../lang";
 import {
   Close,
@@ -33,9 +36,80 @@ interface JokeProps {
   joke: IJoke;
 }
 
+export const Joke = ({ joke }: JokeProps) => {
+  if (isShort(joke)) return <ShortJoke joke={joke} />;
+
+  return <LongJoke joke={joke} />;
+};
+
+const gradients = [
+  "linear-gradient(97.94deg, #DEF6A8 0%, #FFC7EE 100%)",
+  "linear-gradient(97.94deg, #FFC7EE 0%, #68D4F9 100%)",
+  "linear-gradient(97.94deg, #8FEFFC 0%, #DEF6A8 100%)",
+];
+
+const jokeIdToGradient = (id: string) => {
+  const sum = id.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  return gradients[sum % gradients.length];
+};
+
+export const ShortJoke = ({ joke }: JokeProps) => {
+  const { foreignLang, appLang } = useLangs();
+
+  const jokeInAppLang = joke.translations[appLang]?.[0];
+  const jokeInForeignLang = joke.translations[foreignLang]?.[0];
+
+  if (!jokeInAppLang || !jokeInForeignLang) {
+    return (
+      <Alert severity="error">
+        This joke is missing translations for {appLang} or {foreignLang}.
+      </Alert>
+    );
+  }
+
+  const gradient = jokeIdToGradient(joke.id);
+
+  return (
+    <Box sx={{ pb: 3.5 / 2 }}>
+      <Card
+        sx={{
+          background: gradient,
+          boxShadow: "none",
+          overflow: "visible",
+          position: "relative",
+        }}
+      >
+        <CardContent sx={{ textAlign: "center", px: 2, py: 8 }}>
+          <Typography variant="h4">{jokeInAppLang}</Typography>
+          <Typography variant="body1">{jokeInForeignLang}</Typography>
+        </CardContent>
+        <CardActions
+          sx={{ position: "absolute", bottom: -1 * 3.5 * 8, left: 0, right: 0 }}
+        >
+          <Stack direction={"row"} justifyContent={"space-between"} flex={1}>
+            <Stack direction={"row"} spacing={2} alignItems={"center"}>
+              <IconButton title={`Listen to joke`} variant="texty">
+                <VolumeUp />
+              </IconButton>
+              <SquarishSwitch
+                title={`Toggle joke translation`}
+                icon={<TranslateOutlined />}
+                checkedIcon={<TranslateOutlined />}
+              />
+            </Stack>
+            <IconButton title={`Share joke"`} variant="primary">
+              <Share />
+            </IconButton>
+          </Stack>
+        </CardActions>
+      </Card>
+    </Box>
+  );
+};
+
 type DialogValues = "explanation" | "words";
 
-export const Joke = ({ joke }: JokeProps) => {
+export const LongJoke = ({ joke }: JokeProps) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const { foreignLang, appLang } = useLangs();

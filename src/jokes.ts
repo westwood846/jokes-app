@@ -318,3 +318,11 @@ export const useDeleteJoke = () => {
   };
   return deleteJoke;
 };
+
+const isDividerFragment = (fragment: string) => fragment === PARAGRAPH_DIVIDER;
+const isRegularFragment = (fragment: string) => !isDividerFragment(fragment);
+
+export const isShort = (joke: IJoke) => {
+  if (!joke.translations.en) return false;
+  return joke.translations.en.filter(isRegularFragment).length === 1;
+};
