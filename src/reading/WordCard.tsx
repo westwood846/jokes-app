@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  ButtonBase,
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-} from "@mui/material";
+import { Box, IconButton, Stack, Typography } from "@mui/material";
 import { Word } from "../jokes";
 import { useLangs } from "../lang";
 import { FitnessCenterOutlined } from "@mui/icons-material";
@@ -24,49 +18,30 @@ export const WordCard = ({ word }: WordCardProps) => {
   if (!termInAppLang) throw new Error("Term is missing in app language.");
 
   return (
-    <Card
-      variant="outlined"
-      sx={{
-        display: "flex",
-        background: "#1A1B300F",
-        border: "1px solid #1A1B301F",
-        height: 100,
-      }}
-    >
-      {word.image && (
-        <CardMedia sx={{ width: 100, height: 100, position: "relative" }}>
-          <Image
-            src={word.image}
-            alt={termInAppLang}
-            width={100}
-            height={100}
-          />
-        </CardMedia>
-      )}
-      <CardContent
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          flex: 1,
-        }}
-      >
+    <Stack direction={"row"} sx={{ minHeight: 80, flex: 1 }} spacing={2}>
+      <Stack justifyContent={"center"}>
+        <IconButton variant="texty">
+          <FitnessCenterOutlined />
+        </IconButton>
+      </Stack>
+      <Stack sx={{ justifyContent: "center", flex: 1 }}>
         <Typography variant="subtitle1" fontWeight="bold">
           {termInForeignLang}
         </Typography>
         <Typography variant="body2" color="primary.dark">
           {termInAppLang}
         </Typography>
-      </CardContent>
-      <ButtonBase
-        sx={{
-          background: "#1A1B300F",
-          padding: 2,
-          color: ({ palette }) => palette.text.secondary,
-        }}
-      >
-        <FitnessCenterOutlined />
-      </ButtonBase>
-    </Card>
+      </Stack>
+      {word.image && (
+        <Box sx={{ width: 100, height: 100, position: "relative" }}>
+          <Image
+            src={word.image}
+            alt={termInAppLang}
+            width={100}
+            height={100}
+          />
+        </Box>
+      )}
+    </Stack>
   );
 };

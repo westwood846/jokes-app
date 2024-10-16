@@ -3,31 +3,21 @@
 import {
   Alert,
   Box,
-  Button,
   Card,
   CardActions,
   CardContent,
   Chip,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
+  Divider,
   IconButton,
+  List,
+  ListItem,
   Stack,
   Typography,
-  useMediaQuery,
-  useTheme,
 } from "@mui/material";
-import { IJoke, isShort, PARAGRAPH_DIVIDER, tagLabels } from "../jokes";
+import { IJoke, isShort, PARAGRAPH_DIVIDER } from "../jokes";
 import { useLangs } from "../lang";
-import {
-  Close,
-  LightbulbOutlined,
-  Share,
-  TranslateOutlined,
-  VolumeUp,
-} from "@mui/icons-material";
-import { Fragment, useState } from "react";
+import { Share, TranslateOutlined, VolumeUp } from "@mui/icons-material";
+import { Fragment } from "react";
 import { SquarishSwitch } from "../core/SquarishSwitch";
 import { WordCard } from "./WordCard";
 import Image from "next/image";
@@ -107,14 +97,8 @@ export const ShortJoke = ({ joke }: JokeProps) => {
   );
 };
 
-type DialogValues = "explanation" | "words";
-
 export const LongJoke = ({ joke }: JokeProps) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const { foreignLang, appLang } = useLangs();
-
-  const [dialogValue, setDialogValue] = useState<DialogValues | null>(null);
 
   const jokeInAppLang = joke.translations[appLang];
   const jokeInForeignLang = joke.translations[foreignLang];
@@ -165,6 +149,10 @@ export const LongJoke = ({ joke }: JokeProps) => {
         </Box>
       )}
 
+      <Stack direction="row">
+        {difficulty && <Chip label={difficulty} size="small" />}
+      </Stack>
+
       <Stack>
         <Typography variant="h5">{titleInAppLang}</Typography>
         <Typography variant="body1" color="primary.dark">
@@ -185,14 +173,6 @@ export const LongJoke = ({ joke }: JokeProps) => {
             icon={<TranslateOutlined />}
             checkedIcon={<TranslateOutlined />}
           />
-          <IconButton
-            title={`Explain joke"`}
-            variant="primary"
-            onClick={() => setDialogValue("explanation")}
-            disabled={!joke.explanations?.[appLang] && !joke.terms}
-          >
-            <LightbulbOutlined />
-          </IconButton>
         </Stack>
         <IconButton title={`Share joke"`} variant="primary">
           <Share />
@@ -203,53 +183,25 @@ export const LongJoke = ({ joke }: JokeProps) => {
         <JokeBody inAppLang={jokeInAppLang} inForeignLang={jokeInForeignLang} />
       </div>
 
-      <Dialog
-        open={dialogValue === "explanation"}
-        onClose={() => setDialogValue(null)}
-        fullScreen={isMobile}
-      >
-        <DialogTitle sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-          <LightbulbOutlined />
-          <Box component={"span"} sx={{ flex: 1 }}>
-            Explain
-          </Box>
-          {isMobile && (
-            <IconButton onClick={() => setDialogValue(null)}>
-              <Close />
-            </IconButton>
-          )}
-        </DialogTitle>
-        <DialogContent>
-          <Stack component={Stack} spacing={4}>
-            <Typography color="primary.dark">
-              {joke.explanations?.[appLang]}
-            </Typography>
-            <Stack spacing={1.5} component="dl" sx={{ my: 0 }}>
-              {joke.terms?.map((term) => (
-                <WordCard key={term.term[appLang]} word={term} />
-              ))}
-            </Stack>
-          </Stack>
-        </DialogContent>
-        {!isMobile && (
-          <DialogActions>
-            <Button onClick={() => setDialogValue(null)}>Close</Button>
-          </DialogActions>
-        )}
-      </Dialog>
+      <Divider>🤣</Divider>
 
-      <Stack
-        direction={"row"}
-        flexWrap={"wrap"}
-        useFlexGap
-        maxWidth={300}
-        gap={1}
-      >
-        {difficulty && <Chip label={difficulty} size="small" />}
-        {joke.tags.map((tag) => (
-          <Chip key={tag} label={tagLabels[tag][appLang]} size="small" />
+      <Typography color="text.secondary" fontStyle={"italic"} pb={1}>
+        {joke.explanations?.[appLang]}
+      </Typography>
+
+      <Divider />
+
+      <List component="dl" sx={{ py: 0 }}>
+        {joke.terms?.map((term, i, all) => (
+          <ListItem
+            key={term.term[appLang]}
+            disablePadding
+            divider={i < all.length - 1}
+          >
+            <WordCard key={term.term[appLang]} word={term} />
+          </ListItem>
         ))}
-      </Stack>
+      </List>
     </Stack>
   );
 };

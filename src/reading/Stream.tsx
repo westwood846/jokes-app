@@ -5,6 +5,7 @@ import { Fragment, useState } from "react";
 import { tagLabels, useJokes } from "@/jokes";
 import { useLangs } from "@/lang";
 import { Joke } from "@/reading/Joke";
+import { MoreHoriz } from "@mui/icons-material";
 
 export const Stream = () => {
   const { appLang } = useLangs();
@@ -60,7 +61,9 @@ export const Stream = () => {
         {availableJokes.map((joke) => (
           <Fragment key={joke.id}>
             <Joke joke={joke} />
-            <Divider sx={{ my: 6 }} />
+            <Divider sx={{ my: 6 }}>
+              <MoreHoriz fontSize="small" sx={{ mb: -0.6 }} />
+            </Divider>
           </Fragment>
         ))}
       </List>
