@@ -15,9 +15,17 @@ import {
   FitnessCenterOutlined,
   NewspaperOutlined,
   Settings,
-  Tune,
 } from "@mui/icons-material";
 import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
+
+const routes = {
+  stream: { label: "Stream", icon: <NewspaperOutlined /> },
+  categories: { label: "Categories", icon: <CategoryOutlined /> },
+  workout: { label: "Workout", icon: <FitnessCenterOutlined /> },
+  settings: { label: "You", icon: <Settings /> },
+  admin: { label: "Admin", icon: <AdminPanelSettings /> },
+};
 
 export function DesktopNav() {
   const router = useRouter();
@@ -32,15 +40,16 @@ export function DesktopNav() {
       <Container maxWidth="sm" disableGutters>
         <Toolbar>
           <Box sx={{ flexGrow: 1 }}>
-            <Tabs
-              value={pathname.split("/")[1]}
-              onChange={(e, tab) => router.push(`/${tab}`)}
-            >
-              <Tab label="Stream" value="stream" />
-              <Tab label="Themes" value="settings" />
-              <Tab label="Train" value="train" />
-              <Tab label="You" value="profile" />
-              <Tab label="Admin" value="admin" />
+            <Tabs value={pathname.split("/")[1]}>
+              {Object.entries(routes).map(([route, { label }]) => (
+                <Tab
+                  key={route}
+                  label={label}
+                  value={route}
+                  LinkComponent={Link}
+                  href={`/${route}`}
+                />
+              ))}
             </Tabs>
           </Box>
           <IconButton onClick={() => router.push("/settings")} title="Settings">
@@ -53,7 +62,6 @@ export function DesktopNav() {
 }
 
 export function MobileNav() {
-  const router = useRouter();
   const pathname = usePathname();
 
   return (
@@ -64,15 +72,18 @@ export function MobileNav() {
     >
       <Container disableGutters>
         <Toolbar sx={{ justifyContent: "center" }}>
-          <Tabs
-            value={pathname.split("/")[1]}
-            onChange={(e, tab) => router.push(`/${tab}`)}
-          >
-            <Tab icon={<NewspaperOutlined />} value="stream" />
-            <Tab icon={<CategoryOutlined />} value="settings" />
-            <Tab icon={<FitnessCenterOutlined />} value="train" />
-            <Tab icon={<Tune />} value="profile" />
-            <Tab icon={<AdminPanelSettings />} value="admin" />
+          <Tabs value={pathname.split("/")[1]}>
+            {Object.entries(routes).map(([route, { label, icon }]) => (
+              <Tab
+                key={route}
+                icon={icon}
+                value={route}
+                title={label}
+                LinkComponent={Link}
+                href={`/${route}`}
+                sx={{ minWidth: 70 }}
+              />
+            ))}
           </Tabs>
         </Toolbar>
       </Container>
