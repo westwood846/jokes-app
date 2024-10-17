@@ -1,6 +1,13 @@
 "use client";
 
 import { createTheme } from "@mui/material/styles";
+import { Mulish } from "next/font/google";
+
+const mainFont = Mulish({
+  weight: ["300", "500", "700"],
+  variable: "--font-main",
+  subsets: ["latin", "latin-ext"],
+});
 
 declare module "@mui/material/IconButton" {
   interface IconButtonOwnProps {
@@ -10,7 +17,7 @@ declare module "@mui/material/IconButton" {
 
 export let theme = createTheme({
   typography: {
-    fontFamily: "var(--font-roboto)",
+    fontFamily: mainFont.style.fontFamily,
   },
   colorSchemes: {
     dark: true,

@@ -4,15 +4,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import { DesktopNav, MobileNav } from "@/core/nav";
 import { theme } from "@/core/theme";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
-import { Roboto } from "next/font/google";
 import { Setup } from "@/setup";
-
-const roboto = Roboto({
-  weight: ["300", "400", "500", "700"],
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-roboto",
-});
 
 export const metadata: Metadata = {
   title: "Jokes App",
@@ -26,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={roboto.variable}>
+      <body>
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
             <CssBaseline />
