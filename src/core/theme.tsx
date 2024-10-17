@@ -9,6 +9,7 @@ const mainFont = Mulish({
   subsets: ["latin", "latin-ext"],
 });
 
+// eslint-disable-next-line import/no-mutable-exports
 export let theme = createTheme({
   typography: {
     fontFamily: mainFont.style.fontFamily,

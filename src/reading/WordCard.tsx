@@ -1,17 +1,17 @@
 "use client";
 
 import { Box, Stack, Typography } from "@mui/material";
-import { Word } from "../jokes";
-import { useLangs } from "../lang";
 import { FitnessCenterOutlined } from "@mui/icons-material";
 import Image from "next/image";
 import { SquarishIconButton } from "@/core/SquarishIconButton";
+import { useLangs } from "../lang";
+import { Word } from "../jokes";
 
 interface WordCardProps {
   word: Word;
 }
 
-export const WordCard = ({ word }: WordCardProps) => {
+export function WordCard({ word }: WordCardProps) {
   const { foreignLang, appLang } = useLangs();
   const termInAppLang = word.term[appLang];
   const termInForeignLang = word.term[foreignLang];
@@ -19,8 +19,8 @@ export const WordCard = ({ word }: WordCardProps) => {
   if (!termInAppLang) throw new Error("Term is missing in app language.");
 
   return (
-    <Stack direction={"row"} sx={{ minHeight: 80, flex: 1 }} spacing={2}>
-      <Stack justifyContent={"center"}>
+    <Stack direction="row" sx={{ minHeight: 80, flex: 1 }} spacing={2}>
+      <Stack justifyContent="center">
         <SquarishIconButton>
           <FitnessCenterOutlined />
         </SquarishIconButton>
@@ -45,4 +45,4 @@ export const WordCard = ({ word }: WordCardProps) => {
       )}
     </Stack>
   );
-};
+}

@@ -16,7 +16,7 @@ export default function Page({ params }: { params: { id: string } }) {
 function ActualPage({ params }: { params: { id: string } }) {
   const { id } = params;
   const jokes = useJokes();
-  const joke = jokes.find((joke) => joke.id === id);
+  const joke = jokes.find((j) => j.id === id);
 
   if (!joke) {
     return <Alert severity="error">Joke not found</Alert>;

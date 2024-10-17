@@ -1,6 +1,8 @@
 "use client";
 
-import { Button, Container, Stack, Typography } from "@mui/material";
+import {
+  Button, Container, Stack, Typography,
+} from "@mui/material";
 import { AppLangChooser } from "@/settings/AppLangChooser";
 import { ForeignLangChooser } from "@/settings/ForeignLangChooser";
 import Link from "next/link";
@@ -13,10 +15,10 @@ export default function Page() {
 
   return (
     <Container maxWidth="sm" sx={{ pt: 2, pb: 8 }}>
-      <Stack spacing={4} textAlign={"center"}>
+      <Stack spacing={4} textAlign="center">
         <Typography variant="h1">LOGO</Typography>
 
-        <Typography>{"Learn languages with fun :-)"}</Typography>
+        <Typography>Learn languages with fun :-)</Typography>
 
         <Stack spacing={2}>
           <Typography variant="h6">I speak...</Typography>

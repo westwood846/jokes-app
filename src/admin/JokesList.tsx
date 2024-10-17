@@ -11,7 +11,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-export const JokesList = () => {
+export function JokesList() {
   const jokes = useJokes();
   return (
     <List>
@@ -38,4 +38,4 @@ export const JokesList = () => {
       ))}
     </List>
   );
-};
+}

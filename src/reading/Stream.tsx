@@ -7,7 +7,7 @@ import { useLangs } from "@/lang";
 import { Joke } from "@/reading/Joke";
 import { MoreHoriz } from "@mui/icons-material";
 
-export const Stream = () => {
+export function Stream() {
   const { appLang } = useLangs();
 
   const [activeTags, setActiveTags] = useState<string[]>([]);
@@ -30,23 +30,13 @@ export const Stream = () => {
 
   return (
     <Stack spacing={2}>
-      <Stack
-        direction={"row"}
-        justifyContent={"space-between"}
-        alignItems={"center"}
-      >
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Typography variant="h4" component="h1">
           Stream
         </Typography>
       </Stack>
 
-      <Stack
-        direction={"row"}
-        flexWrap={"wrap"}
-        useFlexGap
-        maxWidth={300}
-        gap={1}
-      >
+      <Stack direction="row" flexWrap="wrap" useFlexGap maxWidth={300} gap={1}>
         {Object.entries(tagLabels).map(([tag, translations]) => (
           <Chip
             key={tag}
@@ -69,4 +59,4 @@ export const Stream = () => {
       </List>
     </Stack>
   );
-};
+}

@@ -38,12 +38,12 @@ export const jokes: IJoke[] = [
       de: [
         "Gehen zwei Zahnstocher in den Wald und sehen einen Igel.",
         "Sagt der eine:",
-        '"Ich wusste gar nicht, dass hier ein Bus fährt."',
+        "\"Ich wusste gar nicht, dass hier ein Bus fährt.\"",
       ],
       en: [
         "Two toothpicks are walking in the forest and meet a hedgehog.",
         "One says:",
-        '"I didn\'t even know there was a bus here."',
+        "\"I didn't even know there was a bus here.\"",
       ],
     },
     terms: [
@@ -297,23 +297,23 @@ export const tagLabels: { [tag: string]: LangMap } = {
 export const JOKES_LS_KEY = "jokes";
 
 export const useJokes = () => {
-  const [jokes] = useLocalStorage<IJoke[]>(JOKES_LS_KEY, []);
-  return jokes;
+  const [lsJokes] = useLocalStorage<IJoke[]>(JOKES_LS_KEY, []);
+  return lsJokes;
 };
 
 export const useSaveJoke = () => {
-  const [jokes, setJokes] = useLocalStorage<IJoke[]>(JOKES_LS_KEY, []);
+  const [lsJokes, setJokes] = useLocalStorage<IJoke[]>(JOKES_LS_KEY, []);
   const saveJoke = (joke: IJoke) => {
-    const newJokes = jokes.filter((j) => j.id !== joke.id).concat(joke);
+    const newJokes = lsJokes.filter((j) => j.id !== joke.id).concat(joke);
     setJokes(newJokes);
   };
   return saveJoke;
 };
 
 export const useDeleteJoke = () => {
-  const [jokes, setJokes] = useLocalStorage<IJoke[]>(JOKES_LS_KEY, []);
+  const [lsJokes, setJokes] = useLocalStorage<IJoke[]>(JOKES_LS_KEY, []);
   const deleteJoke = (id: string) => {
-    const newJokes = jokes.filter((j) => j.id !== id);
+    const newJokes = lsJokes.filter((j) => j.id !== id);
     setJokes(newJokes);
   };
   return deleteJoke;

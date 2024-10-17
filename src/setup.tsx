@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 "use client";
 
 import { useEffect } from "react";
@@ -12,11 +14,11 @@ const migrateLocalStorageJokes = () => {
   const oldState = JSON.parse(localStorage.getItem("jokes") || "[]") as IJoke[];
   const newState = [...oldState];
 
-  for (const joke of jokes) {
+  jokes.forEach((joke) => {
     const jokeExists = newState.some((j) => j.id === joke.id);
-    if (jokeExists) continue;
+    if (jokeExists) return;
     newState.push(joke);
-  }
+  });
 
   console.log(
     `Added ${newState.length - oldState.length} jokes to localStorage`
@@ -25,7 +27,7 @@ const migrateLocalStorageJokes = () => {
   localStorage.setItem("jokes", JSON.stringify(newState));
 };
 
-export const Setup = () => {
+export function Setup() {
   useEffect(migrateLocalStorageJokes, []);
   return null;
-};
+}

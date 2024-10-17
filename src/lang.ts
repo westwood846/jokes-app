@@ -19,30 +19,33 @@ export const initAppLang: Lang = "en";
 export const useLangs = () => {
   const [foreignLang, setForeignLang] = useLocalStorage<Lang>(
     "foreignLang",
-    initForeignLang
+    initForeignLang,
   );
   const [appLang, setAppLang] = useLocalStorage<Lang>("appLang", initAppLang);
-  return { foreignLang, setForeignLang, appLang, setAppLang };
+  return {
+    foreignLang, setForeignLang, appLang, setAppLang,
+  };
 };
 
 export const useChangeLang = () => {
-  const { foreignLang, setForeignLang, appLang, setAppLang } = useLangs();
+  const {
+    foreignLang, setForeignLang, appLang, setAppLang,
+  } = useLangs();
   const changeLang = useCallback(
     (newLang: Lang, target: "foreign" | "app") => {
-      const [setNewLang, setOtherLang] =
-        target === "foreign"
-          ? [setForeignLang, setAppLang]
-          : [setAppLang, setForeignLang];
+      const [setNewLang, setOtherLang] = target === "foreign"
+        ? [setForeignLang, setAppLang]
+        : [setAppLang, setForeignLang];
       const otherLang = target === "foreign" ? appLang : foreignLang;
       setNewLang(newLang);
       if (newLang !== otherLang) return;
       const dodgedLang = (Object.keys(langs) as Lang[]).find(
-        (lang) => lang !== newLang
+        (lang) => lang !== newLang,
       );
       if (!dodgedLang) throw new Error("No lang to dodge");
       setOtherLang(dodgedLang);
     },
-    [foreignLang, setForeignLang, appLang, setAppLang]
+    [foreignLang, setForeignLang, appLang, setAppLang],
   );
   return changeLang;
 };

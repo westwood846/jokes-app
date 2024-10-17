@@ -19,7 +19,7 @@ import {
 } from "@mui/icons-material";
 import { usePathname, useRouter } from "next/navigation";
 
-export const DesktopNav = () => {
+export function DesktopNav() {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -50,9 +50,9 @@ export const DesktopNav = () => {
       </Container>
     </AppBar>
   );
-};
+}
 
-export const MobileNav = () => {
+export function MobileNav() {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -78,4 +78,4 @@ export const MobileNav = () => {
       </Container>
     </AppBar>
   );
-};
+}

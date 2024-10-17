@@ -1,9 +1,13 @@
 "use client";
 
-import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
-import { useLangs, useChangeLang, Lang, langs } from "../lang";
+import {
+  FormControl, InputLabel, Select, MenuItem,
+} from "@mui/material";
+import {
+  useLangs, useChangeLang, Lang, langs,
+} from "../lang";
 
-export const ForeignLangChooser = () => {
+export function ForeignLangChooser() {
   const { foreignLang } = useLangs();
   const changeLang = useChangeLang();
 
@@ -24,4 +28,4 @@ export const ForeignLangChooser = () => {
       </Select>
     </FormControl>
   );
-};
+}

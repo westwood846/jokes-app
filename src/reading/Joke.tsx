@@ -13,23 +13,26 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { IJoke, isShort, PARAGRAPH_DIVIDER } from "../jokes";
-import { useLangs } from "../lang";
 import { Share, TranslateOutlined, VolumeUp } from "@mui/icons-material";
 import { Fragment } from "react";
-import { SquarishSwitch } from "../core/SquarishSwitch";
-import { WordCard } from "./WordCard";
 import Image from "next/image";
+
+import ReactMarkdown from "react-markdown";
+import { SquarishIconButton } from "@/core/SquarishIconButton";
+import { WordCard } from "./WordCard";
+import { SquarishSwitch } from "../core/SquarishSwitch";
+import { useLangs } from "../lang";
+import { IJoke, isShort, PARAGRAPH_DIVIDER } from "../jokes";
 
 interface JokeProps {
   joke: IJoke;
 }
 
-export const Joke = ({ joke }: JokeProps) => {
+export function Joke({ joke }: JokeProps) {
   if (isShort(joke)) return <ShortJoke joke={joke} />;
 
   return <LongJoke joke={joke} />;
-};
+}
 
 const gradients = [
   "linear-gradient(97.94deg, #DEF6A8 0%, #FFC7EE 100%)",
@@ -42,7 +45,7 @@ const jokeIdToGradient = (id: string) => {
   return gradients[sum % gradients.length];
 };
 
-export const ShortJoke = ({ joke }: JokeProps) => {
+export function ShortJoke({ joke }: JokeProps) {
   const { foreignLang, appLang } = useLangs();
 
   const jokeInAppLang = joke.translations[appLang]?.[0];
@@ -73,20 +76,25 @@ export const ShortJoke = ({ joke }: JokeProps) => {
           <Typography variant="body1">{jokeInForeignLang}</Typography>
         </CardContent>
         <CardActions
-          sx={{ position: "absolute", bottom: -1 * 3.5 * 8, left: 0, right: 0 }}
+          sx={{
+            position: "absolute",
+            bottom: -1 * 3.5 * 8,
+            left: 0,
+            right: 0,
+          }}
         >
-          <Stack direction={"row"} justifyContent={"space-between"} flex={1}>
-            <Stack direction={"row"} spacing={2} alignItems={"center"}>
-              <SquarishIconButton title={`Listen to joke`} color="primary">
+          <Stack direction="row" justifyContent="space-between" flex={1}>
+            <Stack direction="row" spacing={2} alignItems="center">
+              <SquarishIconButton title="Listen to joke" color="primary">
                 <VolumeUp />
               </SquarishIconButton>
               <SquarishSwitch
-                title={`Toggle joke translation`}
+                title="Toggle joke translation"
                 icon={<TranslateOutlined />}
                 checkedIcon={<TranslateOutlined />}
               />
             </Stack>
-            <SquarishIconButton title={`Share joke"`}>
+            <SquarishIconButton title="Share joke">
               <Share />
             </SquarishIconButton>
           </Stack>
@@ -94,9 +102,9 @@ export const ShortJoke = ({ joke }: JokeProps) => {
       </Card>
     </Box>
   );
-};
+}
 
-export const LongJoke = ({ joke }: JokeProps) => {
+export function LongJoke({ joke }: JokeProps) {
   const { foreignLang, appLang } = useLangs();
 
   const jokeInAppLang = joke.translations[appLang];
@@ -159,8 +167,8 @@ export const LongJoke = ({ joke }: JokeProps) => {
         </Typography>
       </Stack>
 
-      <Stack direction={"row"} justifyContent={"space-between"}>
-        <Stack direction={"row"} spacing={2} alignItems={"center"}>
+      <Stack direction="row" justifyContent="space-between">
+        <Stack direction="row" spacing={2} alignItems="center">
           <SquarishIconButton
             title={`Listen to "${titleInForeignLang}"`}
             color="primary"
@@ -168,12 +176,12 @@ export const LongJoke = ({ joke }: JokeProps) => {
             <VolumeUp />
           </SquarishIconButton>
           <SquarishSwitch
-            title={`Toggle joke translation`}
+            title="Toggle joke translation"
             icon={<TranslateOutlined />}
             checkedIcon={<TranslateOutlined />}
           />
         </Stack>
-        <SquarishIconButton title={`Share joke"`}>
+        <SquarishIconButton title='Share joke"'>
           <Share />
         </SquarishIconButton>
       </Stack>
@@ -184,7 +192,7 @@ export const LongJoke = ({ joke }: JokeProps) => {
 
       <Divider>🤣</Divider>
 
-      <Typography color="text.secondary" fontStyle={"italic"} pb={1}>
+      <Typography color="text.secondary" fontStyle="italic" pb={1}>
         {joke.explanations?.[appLang]}
       </Typography>
 
@@ -203,17 +211,14 @@ export const LongJoke = ({ joke }: JokeProps) => {
       </List>
     </Stack>
   );
-};
-
-import ReactMarkdown from "react-markdown";
-import { SquarishIconButton } from "@/core/SquarishIconButton";
+}
 
 interface JokeBodyProps {
   inAppLang: string[];
   inForeignLang: string[];
 }
 
-const JokeBody = ({ inAppLang, inForeignLang }: JokeBodyProps) => {
+function JokeBody({ inAppLang, inForeignLang }: JokeBodyProps) {
   if (!inAppLang.some((line) => line === PARAGRAPH_DIVIDER)) {
     return (
       <JokeParagraph inAppLang={inAppLang} inForeignLang={inForeignLang} />
@@ -242,22 +247,24 @@ const JokeBody = ({ inAppLang, inForeignLang }: JokeBodyProps) => {
 
   return paragraphsInForeignLang.map((paragraphInForeignLang, i) => (
     <JokeParagraph
+      // eslint-disable-next-line react/no-array-index-key
       key={i}
       inForeignLang={paragraphInForeignLang}
       inAppLang={paragraphsInAppLang[i]}
     />
   ));
-};
+}
 
 interface JokeParagraphProps {
   inAppLang: string[];
   inForeignLang: string[];
 }
 
-const JokeParagraph = ({ inAppLang, inForeignLang }: JokeParagraphProps) => {
+function JokeParagraph({ inAppLang, inForeignLang }: JokeParagraphProps) {
   return (
     <p>
       {inForeignLang.map((line, i) => (
+        // eslint-disable-next-line react/no-array-index-key
         <Fragment key={i}>
           <Typography component="span">
             <ReactMarkdown components={{ p: "span" }}>{line}</ReactMarkdown>
@@ -271,4 +278,4 @@ const JokeParagraph = ({ inAppLang, inForeignLang }: JokeParagraphProps) => {
       ))}
     </p>
   );
-};
+}

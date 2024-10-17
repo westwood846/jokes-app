@@ -1,6 +1,8 @@
 "use client";
 
-import { Container, IconButton, Stack, Typography } from "@mui/material";
+import {
+  Container, IconButton, Stack, Typography,
+} from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { AppLangChooser } from "@/settings/AppLangChooser";
 import { ForeignLangChooser } from "@/settings/ForeignLangChooser";
@@ -16,9 +18,9 @@ export default function Settings() {
     <Container maxWidth="sm" sx={{ pt: 2, pb: 8 }}>
       <Stack spacing={4}>
         <Stack
-          direction={"row"}
-          justifyContent={"space-between"}
-          alignItems={"center"}
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
         >
           <Typography variant="h4" component="h1">
             Settings

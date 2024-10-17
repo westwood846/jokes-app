@@ -16,7 +16,7 @@ type FormValues = Omit<IJoke, "translations" | "lang"> & {
   lang: Lang | "";
 };
 
-const paragraphSplitter = new RegExp(`\s*${PARAGRAPH_DIVIDER}\s*`, "g");
+const paragraphSplitter = new RegExp(`\\s*${PARAGRAPH_DIVIDER}\\s*`, "g");
 
 const toFormValues = (joke: IJoke): FormValues => ({
   ...joke,
@@ -36,9 +36,9 @@ const fromFormValues = (values: FormValues): IJoke => ({
       lang as Lang,
       translation
         .trim()
-        .split(/(?<=[\.:!?;\u2014])\n\n/)
+        .split(/(?<=[.:!?;\u2014])\n\n/)
         .flatMap((p) => [
-          ...p.split(/(?<=[\.:!?;\u2014])\s/),
+          ...p.split(/(?<=[.:!?;\u2014])\s/),
           PARAGRAPH_DIVIDER,
         ]),
     ])
@@ -46,7 +46,7 @@ const fromFormValues = (values: FormValues): IJoke => ({
   lang: values.lang || null,
 });
 
-export const EditJoke = ({ originalJoke }: EditJokeProps) => {
+export function EditJoke({ originalJoke }: EditJokeProps) {
   const form = useForm({ defaultValues: toFormValues(originalJoke) });
 
   const saveJoke = useSaveJoke();
@@ -124,7 +124,7 @@ export const EditJoke = ({ originalJoke }: EditJokeProps) => {
       </Stack>
 
       <Stack flex={1} spacing={2}>
-        <Stack direction="row" spacing={2} justifyContent={"end"}>
+        <Stack direction="row" spacing={2} justifyContent="end">
           <Button variant="outlined" color="warning" onClick={onDelete}>
             Delete
           </Button>
@@ -152,4 +152,4 @@ export const EditJoke = ({ originalJoke }: EditJokeProps) => {
       </Stack>
     </Stack>
   );
-};
+}
