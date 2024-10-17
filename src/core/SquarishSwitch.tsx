@@ -3,9 +3,11 @@ import { styled, Switch, SwitchProps } from "@mui/material";
 export const SquarishSwitch = styled((props: SwitchProps) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" {...props} />
 ))(({ theme }) => ({
-  width: 56,
-  height: 40,
+  width: 60,
+  height: 44,
   padding: 0,
+  border: `2px solid ${theme.palette.background.default}`,
+  borderRadius: 8,
   "& .MuiSwitch-switchBase": {
     padding: 0,
     margin: 2,
@@ -16,7 +18,6 @@ export const SquarishSwitch = styled((props: SwitchProps) => (
       "& + .MuiSwitch-track": {
         backgroundColor: theme.palette.primary.light,
         opacity: 1,
-        border: 0,
         ...theme.applyStyles("dark", {
           backgroundColor: "#2ECA45",
         }),
@@ -49,7 +50,7 @@ export const SquarishSwitch = styled((props: SwitchProps) => (
     boxSizing: "border-box",
     width: 36,
     height: 36,
-    borderRadius: 6,
+    borderRadius: 4,
     boxShadow: "none",
     backgroundColor: "#fff",
     color: theme.palette.text.secondary,
@@ -59,7 +60,7 @@ export const SquarishSwitch = styled((props: SwitchProps) => (
     padding: 6,
   },
   "& .MuiSwitch-track": {
-    borderRadius: 8,
+    borderRadius: 0,
     backgroundColor: "#E9E9EA",
     opacity: 1,
     transition: theme.transitions.create(["background-color"], {

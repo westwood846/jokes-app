@@ -9,12 +9,6 @@ const mainFont = Mulish({
   subsets: ["latin", "latin-ext"],
 });
 
-declare module "@mui/material/IconButton" {
-  interface IconButtonOwnProps {
-    variant?: "primary" | "texty" | "outlined";
-  }
-}
-
 export let theme = createTheme({
   typography: {
     fontFamily: mainFont.style.fontFamily,
@@ -32,36 +26,5 @@ export let theme = createTheme({
 });
 
 theme = createTheme(theme, {
-  components: {
-    MuiIconButton: {
-      styleOverrides: {
-        root: {
-          variants: [
-            {
-              props: { variant: "primary" },
-              style: {
-                background: theme.palette.primary.light,
-                color: theme.palette.primary.contrastText,
-              },
-            },
-            {
-              props: { variant: "texty" },
-              style: {
-                background: theme.palette.text.primary,
-                color: theme.palette.background.default,
-              },
-            },
-            {
-              props: { variant: "outlined" },
-              style: {
-                color: theme.palette.text.primary,
-                border: `1px solid ${theme.palette.text.primary}`,
-              },
-            },
-          ],
-          borderRadius: 8,
-        },
-      },
-    },
-  },
+  components: {},
 });

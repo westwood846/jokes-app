@@ -8,7 +8,6 @@ import {
   CardContent,
   Chip,
   Divider,
-  IconButton,
   List,
   ListItem,
   Stack,
@@ -78,18 +77,18 @@ export const ShortJoke = ({ joke }: JokeProps) => {
         >
           <Stack direction={"row"} justifyContent={"space-between"} flex={1}>
             <Stack direction={"row"} spacing={2} alignItems={"center"}>
-              <IconButton title={`Listen to joke`} variant="texty">
+              <SquarishIconButton title={`Listen to joke`} color="primary">
                 <VolumeUp />
-              </IconButton>
+              </SquarishIconButton>
               <SquarishSwitch
                 title={`Toggle joke translation`}
                 icon={<TranslateOutlined />}
                 checkedIcon={<TranslateOutlined />}
               />
             </Stack>
-            <IconButton title={`Share joke"`} variant="primary">
+            <SquarishIconButton title={`Share joke"`}>
               <Share />
-            </IconButton>
+            </SquarishIconButton>
           </Stack>
         </CardActions>
       </Card>
@@ -162,21 +161,21 @@ export const LongJoke = ({ joke }: JokeProps) => {
 
       <Stack direction={"row"} justifyContent={"space-between"}>
         <Stack direction={"row"} spacing={2} alignItems={"center"}>
-          <IconButton
+          <SquarishIconButton
             title={`Listen to "${titleInForeignLang}"`}
-            variant="texty"
+            color="primary"
           >
             <VolumeUp />
-          </IconButton>
+          </SquarishIconButton>
           <SquarishSwitch
             title={`Toggle joke translation`}
             icon={<TranslateOutlined />}
             checkedIcon={<TranslateOutlined />}
           />
         </Stack>
-        <IconButton title={`Share joke"`} variant="primary">
+        <SquarishIconButton title={`Share joke"`}>
           <Share />
-        </IconButton>
+        </SquarishIconButton>
       </Stack>
 
       <div>
@@ -207,6 +206,7 @@ export const LongJoke = ({ joke }: JokeProps) => {
 };
 
 import ReactMarkdown from "react-markdown";
+import { SquarishIconButton } from "@/core/SquarishIconButton";
 
 interface JokeBodyProps {
   inAppLang: string[];

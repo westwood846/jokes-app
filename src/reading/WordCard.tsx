@@ -1,10 +1,11 @@
 "use client";
 
-import { Box, IconButton, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { Word } from "../jokes";
 import { useLangs } from "../lang";
 import { FitnessCenterOutlined } from "@mui/icons-material";
 import Image from "next/image";
+import { SquarishIconButton } from "@/core/SquarishIconButton";
 
 interface WordCardProps {
   word: Word;
@@ -20,9 +21,9 @@ export const WordCard = ({ word }: WordCardProps) => {
   return (
     <Stack direction={"row"} sx={{ minHeight: 80, flex: 1 }} spacing={2}>
       <Stack justifyContent={"center"}>
-        <IconButton variant="texty">
+        <SquarishIconButton>
           <FitnessCenterOutlined />
-        </IconButton>
+        </SquarishIconButton>
       </Stack>
       <Stack sx={{ justifyContent: "center", flex: 1 }}>
         <Typography variant="subtitle1" fontWeight="bold">
