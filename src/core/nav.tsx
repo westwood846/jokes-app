@@ -27,6 +27,8 @@ const routes = {
   admin: { label: "Admin", icon: <AdminPanelSettings /> },
 };
 
+const defaultRoute = Object.keys(routes)[0];
+
 export function DesktopNav() {
   const router = useRouter();
   const pathname = usePathname();
@@ -40,7 +42,7 @@ export function DesktopNav() {
       <Container maxWidth="sm" disableGutters>
         <Toolbar>
           <Box sx={{ flexGrow: 1 }}>
-            <Tabs value={pathname.split("/")[1]}>
+            <Tabs value={pathname.split("/")[1] || defaultRoute}>
               {Object.entries(routes).map(([route, { label }]) => (
                 <Tab
                   key={route}
@@ -72,7 +74,7 @@ export function MobileNav() {
     >
       <Container disableGutters>
         <Toolbar sx={{ justifyContent: "center" }}>
-          <Tabs value={pathname.split("/")[1]}>
+          <Tabs value={pathname.split("/")[1] || defaultRoute}>
             {Object.entries(routes).map(([route, { label, icon }]) => (
               <Tab
                 key={route}

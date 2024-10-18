@@ -1,14 +1,10 @@
 "use client";
 
-import {
-  FormControl, InputLabel, Select, MenuItem,
-} from "@mui/material";
-import {
-  useLangs, useChangeLang, Lang, langs,
-} from "../lang";
+import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { useChangeLang, Lang, langs, useLangsUnsafe } from "../lang";
 
 export function AppLangChooser() {
-  const { appLang } = useLangs();
+  const { appLang } = useLangsUnsafe();
   const changeLang = useChangeLang();
   return (
     <FormControl fullWidth>

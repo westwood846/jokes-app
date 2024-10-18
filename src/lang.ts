@@ -16,12 +16,25 @@ export type Lang = keyof typeof langs;
 export const initForeignLang: Lang = "de";
 export const initAppLang: Lang = "en";
 
-export const useLangs = () => {
-  const [foreignLang, setForeignLang] = useLocalStorage<Lang>(
+
+export const useLangsUnsafe = () => {
+  const [foreignLang, setForeignLang] = useLocalStorage<Lang | null>(
     "foreignLang",
-    initForeignLang,
+    null,
   );
-  const [appLang, setAppLang] = useLocalStorage<Lang>("appLang", initAppLang);
+  const [appLang, setAppLang] = useLocalStorage<Lang | null>("appLang", null);
+
+  return {
+    foreignLang, setForeignLang, appLang, setAppLang,
+  };
+};
+
+export const useLangs = () => {
+  const {foreignLang, setForeignLang, appLang, setAppLang,} = useLangsUnsafe();
+
+  if (!foreignLang) throw new Error("Foreign lang not set");
+  if (!appLang) throw new Error("App lang not set");
+
   return {
     foreignLang, setForeignLang, appLang, setAppLang,
   };
@@ -30,7 +43,7 @@ export const useLangs = () => {
 export const useChangeLang = () => {
   const {
     foreignLang, setForeignLang, appLang, setAppLang,
-  } = useLangs();
+  } = useLangsUnsafe();
   const changeLang = useCallback(
     (newLang: Lang, target: "foreign" | "app") => {
       const [setNewLang, setOtherLang] = target === "foreign"
