@@ -12,7 +12,7 @@ interface WordCardProps {
 }
 
 export function WordCard({ word }: WordCardProps) {
-  const { foreignLang, appLang } = useLangs();
+  const { appLang, foreignLang } = useLangs();
   const termInAppLang = word.term[appLang];
   const termInForeignLang = word.term[foreignLang];
 

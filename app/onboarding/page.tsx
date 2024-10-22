@@ -1,9 +1,7 @@
 "use client";
 
-import {
-  Button, Container, Stack, Typography,
-} from "@mui/material";
-import { AppLangChooser } from "@/settings/AppLangChooser";
+import { Button, Container, Stack, Typography } from "@mui/material";
+import { AppLangChooser } from "@/settings/LangChooser";
 import { ForeignLangChooser } from "@/settings/ForeignLangChooser";
 import Link from "next/link";
 import { useIsClient } from "@uidotdev/usehooks";

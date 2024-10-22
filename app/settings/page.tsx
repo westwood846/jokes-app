@@ -8,20 +8,14 @@ import {
   Typography,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
-import { AppLangChooser } from "@/settings/AppLangChooser";
-import { ForeignLangChooser } from "@/settings/ForeignLangChooser";
+import { ForeignLangChooser, AppLangChooser } from "@/settings/LangChooser";
 import Link from "next/link";
-import { useIsClient } from "@uidotdev/usehooks";
 import { useAppwrite } from "@/appwrite";
 import { useRouter } from "next/navigation";
 
 export default function Settings() {
   const { push } = useRouter();
   const { logout } = useAppwrite();
-
-  // TODO: This is horrible
-  const isClient = useIsClient();
-  if (isClient === false) return null;
 
   const handleLogout = async () => {
     await logout();
