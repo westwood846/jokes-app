@@ -5,6 +5,7 @@ import { DesktopNav, MobileNav } from "@/core/nav";
 import { theme } from "@/core/theme";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { Setup } from "@/setup";
+import { AppwriteContextProvider } from "@/appwrite";
 
 export const metadata: Metadata = {
   title: "Jokes App",
@@ -22,10 +23,12 @@ export default function RootLayout({
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            <DesktopNav />
-            {children}
-            <MobileNav />
-            <Setup />
+            <AppwriteContextProvider>
+              <DesktopNav />
+              {children}
+              <MobileNav />
+              <Setup />
+            </AppwriteContextProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

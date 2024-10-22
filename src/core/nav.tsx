@@ -2,9 +2,9 @@
 
 import {
   AppBar,
+  Avatar,
   Box,
   Container,
-  IconButton,
   Tab,
   Tabs,
   Toolbar,
@@ -13,25 +13,25 @@ import {
   AdminPanelSettings,
   CategoryOutlined,
   FitnessCenterOutlined,
+  Login,
   NewspaperOutlined,
-  Settings,
 } from "@mui/icons-material";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useAppwrite } from "@/appwrite";
 
 const routes = {
   stream: { label: "Stream", icon: <NewspaperOutlined /> },
   categories: { label: "Categories", icon: <CategoryOutlined /> },
   workout: { label: "Workout", icon: <FitnessCenterOutlined /> },
-  settings: { label: "You", icon: <Settings /> },
   admin: { label: "Admin", icon: <AdminPanelSettings /> },
 };
 
 const defaultRoute = Object.keys(routes)[0];
 
 export function DesktopNav() {
-  const router = useRouter();
   const pathname = usePathname();
+  const { user } = useAppwrite();
 
   return (
     <AppBar
@@ -52,11 +52,23 @@ export function DesktopNav() {
                   href={`/${route}`}
                 />
               ))}
+              {user ? (
+                <Tab
+                  label="You"
+                  value="settings"
+                  LinkComponent={Link}
+                  href="/settings"
+                />
+              ) : (
+                <Tab
+                  label="Login"
+                  value="login"
+                  LinkComponent={Link}
+                  href="/login"
+                />
+              )}
             </Tabs>
           </Box>
-          <IconButton onClick={() => router.push("/settings")} title="Settings">
-            <Settings />
-          </IconButton>
         </Toolbar>
       </Container>
     </AppBar>
@@ -65,6 +77,7 @@ export function DesktopNav() {
 
 export function MobileNav() {
   const pathname = usePathname();
+  const { user } = useAppwrite();
 
   return (
     <AppBar
@@ -86,6 +99,25 @@ export function MobileNav() {
                 sx={{ minWidth: 70 }}
               />
             ))}
+            {user ? (
+              <Tab
+                icon={<Avatar>{user.email}</Avatar>}
+                value="settings"
+                title="Settings"
+                LinkComponent={Link}
+                href="/settings"
+                sx={{ minWidth: 70 }}
+              />
+            ) : (
+              <Tab
+                icon={<Login />}
+                value="login"
+                title="Login or signup"
+                LinkComponent={Link}
+                href="/login"
+                sx={{ minWidth: 70 }}
+              />
+            )}
           </Tabs>
         </Toolbar>
       </Container>
