@@ -2,7 +2,7 @@
 
 import { Button, Container, Stack, Typography } from "@mui/material";
 import { AppLangChooser } from "@/settings/LangChooser";
-import { ForeignLangChooser } from "@/settings/ForeignLangChooser";
+// import { ForeignLangChooser } from "@/settings/ForeignLangChooser";
 import Link from "next/link";
 import { useIsClient } from "@uidotdev/usehooks";
 
@@ -25,7 +25,7 @@ export default function Page() {
 
         <Stack spacing={2}>
           <Typography variant="h6">I want to learn...</Typography>
-          <ForeignLangChooser />
+          {/* <ForeignLangChooser /> */}
         </Stack>
 
         <Button fullWidth variant="contained" component={Link} href="/stream">

@@ -8,19 +8,12 @@ import {
   Typography,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
-import { ForeignLangChooser, AppLangChooser } from "@/settings/LangChooser";
+// import { ForeignLangChooser, AppLangChooser } from "@/settings/LangChooser";
 import Link from "next/link";
 import { useAppwrite } from "@/appwrite";
-import { useRouter } from "next/navigation";
 
 export default function Settings() {
-  const { push } = useRouter();
   const { logout } = useAppwrite();
-
-  const handleLogout = async () => {
-    await logout();
-    push("/login");
-  };
 
   return (
     <Container maxWidth="sm" sx={{ pt: 2, pb: 8 }}>
@@ -38,21 +31,33 @@ export default function Settings() {
           </IconButton>
         </Stack>
 
-        <Stack spacing={2}>
+        {/* <Stack spacing={2}>
           <Typography variant="h6" component="h2">
             I speak...
           </Typography>
           <AppLangChooser />
-        </Stack>
+        </Stack> */}
 
-        <Stack spacing={2}>
+        {/* <Stack spacing={2}>
           <Typography variant="h6" component="h2">
             I want to learn...
           </Typography>
           <ForeignLangChooser />
-        </Stack>
+        </Stack> */}
 
-        <Button onClick={handleLogout} variant="contained">
+        {/* <form action={randomizeAppLang}>
+          <Button type="submit" variant="contained">
+            Randomize app lang
+          </Button>
+        </form> */}
+
+        {/* <form action={signOut}>
+          <Button type="submit" variant="contained">
+            Logout
+          </Button>
+        </form> */}
+
+        <Button onClick={logout} variant="contained">
           Logout
         </Button>
       </Stack>

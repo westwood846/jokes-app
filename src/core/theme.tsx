@@ -14,9 +14,9 @@ export let theme = createTheme({
   typography: {
     fontFamily: mainFont.style.fontFamily,
   },
-  colorSchemes: {
-    dark: true,
-  },
+  // colorSchemes: {
+  //   dark: true,
+  // },
   palette: {
     primary: {
       main: "#B3E60A",

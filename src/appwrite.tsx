@@ -8,13 +8,16 @@ import {
   useMemo,
   useState,
 } from "react";
-import { Client, Account, ID } from "appwrite";
+import { Client, Account, ID, AppwriteException, Databases } from "appwrite";
+import Cookies from "universal-cookie";
 
 export const client = new Client();
-
 client.setEndpoint("http://localhost/v1").setProject("jokes-app");
 
+const cookies = new Cookies(null, { path: "/" });
+
 export const account = new Account(client);
+export const databases = new Databases(client);
 
 export type AppwriteUser = Awaited<ReturnType<typeof account.get>>;
 
@@ -34,19 +37,36 @@ export function AppwriteContextProvider({
 }) {
   const [user, setUser] = useState<AppwriteUser | null>(null);
 
-  useEffect(() => {
-    const init = async () => {
+  const init = useCallback(async () => {
+    // https://github.com/appwrite/appwrite/discussions/3938#discussioncomment-3746725
+    // Dumm, aber okay
+    try {
       const user = await account.get();
       setUser(user);
-    };
-    init();
+
+      const jwt = await account.createJWT();
+      cookies.set("jwt", jwt);
+    } catch (e) {
+      if (e instanceof AppwriteException) {
+        if (e.type === "general_unauthorized_scope") {
+          return; // do nothing, not logged in
+        }
+      }
+      throw e;
+    }
   }, []);
 
-  const login = useCallback(async (email: string, password: string) => {
-    await account.createEmailPasswordSession(email, password);
-    const user = await account.get();
-    setUser(user);
-  }, []);
+  useEffect(() => {
+    init();
+  }, [init]);
+
+  const login = useCallback(
+    async (email: string, password: string) => {
+      await account.createEmailPasswordSession(email, password);
+      init();
+    },
+    [init]
+  );
 
   const register = useCallback(
     async (email: string, password: string, name?: string) => {
@@ -59,6 +79,7 @@ export function AppwriteContextProvider({
   const logout = useCallback(async () => {
     await account.deleteSession("current");
     setUser(null);
+    cookies.remove("jwt");
   }, []);
 
   const value = useMemo(

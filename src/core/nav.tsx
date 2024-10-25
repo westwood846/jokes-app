@@ -29,6 +29,17 @@ const routes = {
 
 const defaultRoute = Object.keys(routes)[0];
 
+// Fall back to the default route if the path is not recognized
+// This avoids a ton of errors in the console and makes it so that
+// there always is a highlighted tab
+const getTabValueErrorFree = (pathname: string) => {
+  const pathParts = pathname.split("/");
+  const pathPart = pathParts[1];
+  if (!pathPart) return defaultRoute;
+  if (!(pathPart in routes)) return defaultRoute;
+  return pathPart;
+};
+
 export function DesktopNav() {
   const pathname = usePathname();
   const { user } = useAppwrite();
@@ -42,7 +53,7 @@ export function DesktopNav() {
       <Container maxWidth="sm" disableGutters>
         <Toolbar>
           <Box sx={{ flexGrow: 1 }}>
-            <Tabs value={pathname.split("/")[1] || defaultRoute}>
+            <Tabs value={getTabValueErrorFree(pathname)}>
               {Object.entries(routes).map(([route, { label }]) => (
                 <Tab
                   key={route}
@@ -87,7 +98,7 @@ export function MobileNav() {
     >
       <Container disableGutters>
         <Toolbar sx={{ justifyContent: "center" }}>
-          <Tabs value={pathname.split("/")[1] || defaultRoute}>
+          <Tabs value={getTabValueErrorFree(pathname)}>
             {Object.entries(routes).map(([route, { label, icon }]) => (
               <Tab
                 key={route}
