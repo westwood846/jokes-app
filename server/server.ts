@@ -3,7 +3,7 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 
-import { IJoke as Joke } from "../models/stories";
+import { IJoke as Joke } from "@models/stories";
 
 const app = express();
 app.use(cors());
