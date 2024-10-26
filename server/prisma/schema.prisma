@@ -1,0 +1,127 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Lang {
+  en
+  de
+  ru
+}
+
+model Story {
+  id           String        @id @default(uuid())
+  title        StoryTitle[]
+  body         StoryBody[]
+  imageURL     String?
+  mainLang     Lang?
+  StoryHelp    StoryHelp[]
+  termsOnStory TermOnStory[]
+  tagsOnStory  TagOnStory[]
+}
+
+model StoryBody {
+  id      String @id @default(uuid())
+  lang    Lang
+  value   String
+  Story   Story  @relation(fields: [storyId], references: [id])
+  storyId String
+}
+
+model StoryTitle {
+  id      String @id @default(uuid())
+  lang    Lang
+  value   String
+  Story   Story  @relation(fields: [storyId], references: [id])
+  storyId String
+}
+
+model StoryHelp {
+  id      String @id @default(uuid())
+  lang    Lang
+  value   String
+  Story   Story  @relation(fields: [storyId], references: [id])
+  storyId String
+}
+
+enum CEFR {
+  A1
+  A2
+  B1
+  B2
+  C1
+  C2
+}
+
+model Term {
+  id              String            @id @default(uuid())
+  difficulty      CEFR
+  imageURL        String?
+  TermTranslation TermTranslation[]
+  TermDefinition  TermDefinition[]
+  TermsOnStory    TermOnStory[]
+}
+
+model TermTranslation {
+  id     String @id @default(uuid())
+  lang   Lang
+  value  String
+  term   Term   @relation(fields: [termId], references: [id])
+  termId String
+}
+
+model TermDefinition {
+  id     String @id @default(uuid())
+  lang   Lang
+  value  String
+  term   Term   @relation(fields: [termId], references: [id])
+  termId String
+}
+
+model TermOnStory {
+  term    Term   @relation(fields: [termId], references: [id])
+  termId  String
+  story   Story  @relation(fields: [storyId], references: [id])
+  storyId String
+
+  @@id([termId, storyId])
+  @@map("TermsOnStory")
+}
+
+model Tag {
+  id         String       @id @default(uuid())
+  names      TagName[]
+  TagGroup   TagGroup?    @relation(fields: [tagGroupId], references: [id])
+  tagGroupId String?
+  TagOnStory TagOnStory[]
+}
+
+model TagGroup {
+  id   String @id @default(uuid())
+  tags Tag[]
+}
+
+model TagName {
+  id    String @id @default(uuid())
+  lang  Lang
+  value String
+  tag   Tag    @relation(fields: [tagId], references: [id])
+  tagId String
+}
+
+model TagOnStory {
+  tag     Tag    @relation(fields: [tagId], references: [id])
+  tagId   String
+  story   Story  @relation(fields: [storyId], references: [id])
+  storyId String
+
+  @@id([tagId, storyId])
+  @@map("TagsOnStory")
+}

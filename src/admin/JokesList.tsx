@@ -1,6 +1,4 @@
-"use client";
-
-import { useJokes } from "@/jokes";
+import { IJoke } from "@models/stories";
 import {
   Avatar,
   List,
@@ -8,30 +6,28 @@ import {
   ListItemAvatar,
   ListItemText,
 } from "@mui/material";
-import Image from "next/image";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 
-export function JokesList() {
-  const jokes = useJokes();
+interface JokesListProps {
+  jokes: IJoke[];
+}
+
+export function JokesList({ jokes }: JokesListProps) {
   return (
     <List>
       {jokes.map((joke) => (
-        <ListItem key={joke.id} component={Link} href={`/admin/${joke.id}`}>
+        <ListItem key={joke.id} component={Link} to={`/admin/jokes/${joke.id}`}>
           <ListItemAvatar>
             <Avatar sx={{ position: "relative" }}>
               {joke.image && (
-                <Image
-                  src={joke.image}
-                  alt={joke.title.en || "No image"}
-                  fill
-                />
+                <img src={joke.image} alt={joke.title.en || "No image"} />
               )}
             </Avatar>
           </ListItemAvatar>
           <ListItemText
             primary={joke.title.en || "Unknown english title"}
             secondary={`${(
-              joke.translations.en?.join(" ") || "Unknown english text"
+              joke.translations.en || "Unknown english text"
             ).slice(0, 50)}...`}
           />
         </ListItem>

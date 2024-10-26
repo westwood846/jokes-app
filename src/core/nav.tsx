@@ -1,48 +1,25 @@
-"use client";
-
-import {
-  AppBar,
-  Avatar,
-  Box,
-  Container,
-  Tab,
-  Tabs,
-  Toolbar,
-} from "@mui/material";
+import { AppBar, Box, Container, Tab, Tabs, Toolbar } from "@mui/material";
 import {
   AdminPanelSettings,
   CategoryOutlined,
   FitnessCenterOutlined,
-  Login,
   NewspaperOutlined,
+  Settings,
 } from "@mui/icons-material";
-import { usePathname } from "next/navigation";
-import Link from "next/link";
-import { useAppwrite } from "@/appwrite";
+import { Link, useLocation } from "react-router-dom";
 
 const routes = {
   stream: { label: "Stream", icon: <NewspaperOutlined /> },
   categories: { label: "Categories", icon: <CategoryOutlined /> },
   workout: { label: "Workout", icon: <FitnessCenterOutlined /> },
+  settings: { label: "You", icon: <Settings /> },
   admin: { label: "Admin", icon: <AdminPanelSettings /> },
 };
 
 const defaultRoute = Object.keys(routes)[0];
 
-// Fall back to the default route if the path is not recognized
-// This avoids a ton of errors in the console and makes it so that
-// there always is a highlighted tab
-const getTabValueErrorFree = (pathname: string) => {
-  const pathParts = pathname.split("/");
-  const pathPart = pathParts[1];
-  if (!pathPart) return defaultRoute;
-  if (!(pathPart in routes)) return defaultRoute;
-  return pathPart;
-};
-
 export function DesktopNav() {
-  const pathname = usePathname();
-  const { user } = useAppwrite();
+  const { pathname } = useLocation();
 
   return (
     <AppBar
@@ -53,33 +30,21 @@ export function DesktopNav() {
       <Container maxWidth="sm" disableGutters>
         <Toolbar>
           <Box sx={{ flexGrow: 1 }}>
-            <Tabs value={getTabValueErrorFree(pathname)}>
+            <Tabs value={pathname.split("/")[1] || defaultRoute}>
               {Object.entries(routes).map(([route, { label }]) => (
                 <Tab
                   key={route}
                   label={label}
                   value={route}
-                  LinkComponent={Link}
-                  href={`/${route}`}
+                  component={Link}
+                  to={`/${route}`}
                 />
               ))}
-              {user ? (
-                <Tab
-                  label="You"
-                  value="settings"
-                  LinkComponent={Link}
-                  href="/settings"
-                />
-              ) : (
-                <Tab
-                  label="Login"
-                  value="login"
-                  LinkComponent={Link}
-                  href="/login"
-                />
-              )}
             </Tabs>
           </Box>
+          {/* <IconButton onClick={() => router.push("/settings")} title="Settings">
+            <Settings />
+          </IconButton> */}
         </Toolbar>
       </Container>
     </AppBar>
@@ -87,8 +52,7 @@ export function DesktopNav() {
 }
 
 export function MobileNav() {
-  const pathname = usePathname();
-  const { user } = useAppwrite();
+  const { pathname } = useLocation();
 
   return (
     <AppBar
@@ -98,37 +62,18 @@ export function MobileNav() {
     >
       <Container disableGutters>
         <Toolbar sx={{ justifyContent: "center" }}>
-          <Tabs value={getTabValueErrorFree(pathname)}>
+          <Tabs value={pathname.split("/")[1] || defaultRoute}>
             {Object.entries(routes).map(([route, { label, icon }]) => (
               <Tab
                 key={route}
                 icon={icon}
                 value={route}
                 title={label}
-                LinkComponent={Link}
-                href={`/${route}`}
+                component={Link}
+                to={`/${route}`}
                 sx={{ minWidth: 70 }}
               />
             ))}
-            {user ? (
-              <Tab
-                icon={<Avatar>{user.email}</Avatar>}
-                value="settings"
-                title="Settings"
-                LinkComponent={Link}
-                href="/settings"
-                sx={{ minWidth: 70 }}
-              />
-            ) : (
-              <Tab
-                icon={<Login />}
-                value="login"
-                title="Login or signup"
-                LinkComponent={Link}
-                href="/login"
-                sx={{ minWidth: 70 }}
-              />
-            )}
           </Tabs>
         </Toolbar>
       </Container>

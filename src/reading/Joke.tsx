@@ -1,6 +1,7 @@
 import {
   Alert,
   Box,
+  Button,
   Card,
   CardActions,
   CardContent,
@@ -13,14 +14,15 @@ import {
 } from "@mui/material";
 import { Share, TranslateOutlined, VolumeUp } from "@mui/icons-material";
 import { Fragment } from "react";
-import Image from "next/image";
 
 import ReactMarkdown from "react-markdown";
-import { SquarishIconButton } from "@/core/SquarishIconButton";
 import { WordCard } from "./WordCard";
 import { SquarishSwitch } from "../core/SquarishSwitch";
 import { useLangs } from "../lang";
-import { IJoke, isShort, PARAGRAPH_DIVIDER } from "../jokes";
+import { isShort } from "../jokes";
+import { SquarishIconButton } from "../core/SquarishIconButton";
+import { IJoke } from "@models/stories";
+import { Link } from "react-router-dom";
 
 interface JokeProps {
   joke: IJoke;
@@ -46,13 +48,28 @@ const jokeIdToGradient = (id: string) => {
 export function ShortJoke({ joke }: JokeProps) {
   const { foreignLang, appLang } = useLangs();
 
-  const jokeInAppLang = joke.translations[appLang]?.[0];
-  const jokeInForeignLang = joke.translations[foreignLang]?.[0];
+  const jokeInAppLang = joke.translations[appLang];
+  const jokeInForeignLang = joke.translations[foreignLang];
 
   if (!jokeInAppLang || !jokeInForeignLang) {
     return (
-      <Alert severity="error">
-        This joke is missing translations for {appLang} or {foreignLang}.
+      <Alert
+        severity="error"
+        action={
+          <Button
+            component={Link}
+            to={`/admin/jokes/${joke.id}`}
+            variant="outlined"
+            color="inherit"
+            sx={{ my: "auto" }}
+          >
+            Edit
+          </Button>
+        }
+      >
+        This joke is missing a translation for {appLang} or {foreignLang}
+        <br />
+        Joke id: <code>{joke.id}</code>
       </Alert>
     );
   }
@@ -144,10 +161,9 @@ export function LongJoke({ joke }: JokeProps) {
             position: "relative",
           }}
         >
-          <Image
+          <img
             src={joke.image}
             alt={titleInAppLang}
-            fill
             style={{ objectFit: "cover" }}
             sizes="(max-width: 9999px) 828px"
           />
@@ -212,45 +228,49 @@ export function LongJoke({ joke }: JokeProps) {
 }
 
 interface JokeBodyProps {
-  inAppLang: string[];
-  inForeignLang: string[];
+  inAppLang: string;
+  inForeignLang: string;
 }
 
 function JokeBody({ inAppLang, inForeignLang }: JokeBodyProps) {
-  if (!inAppLang.some((line) => line === PARAGRAPH_DIVIDER)) {
-    return (
-      <JokeParagraph inAppLang={inAppLang} inForeignLang={inForeignLang} />
-    );
-  }
+  return (
+    <JokeParagraph inAppLang={[inAppLang]} inForeignLang={[inForeignLang]} />
+  );
 
-  const paragraphsInForeignLang = [] as string[][];
-  const paragraphsInAppLang = [] as string[][];
+  // if (!inAppLang.some((line) => line === PARAGRAPH_DIVIDER)) {
+  //   return (
+  //     <JokeParagraph inAppLang={inAppLang} inForeignLang={inForeignLang} />
+  //   );
+  // }
 
-  let currentParagraphInForeignLang = [] as string[];
-  let currentParagraphInAppLang = [] as string[];
-  for (let i = 0; i < inForeignLang.length; i++) {
-    const fragmentInForeignLang = inForeignLang[i];
-    const fragmentInAppLang = inAppLang[i];
+  // const paragraphsInForeignLang = [] as string[][];
+  // const paragraphsInAppLang = [] as string[][];
 
-    if (fragmentInForeignLang === PARAGRAPH_DIVIDER) {
-      paragraphsInForeignLang.push(currentParagraphInForeignLang);
-      paragraphsInAppLang.push(currentParagraphInAppLang);
-      currentParagraphInForeignLang = [];
-      currentParagraphInAppLang = [];
-    } else {
-      currentParagraphInForeignLang.push(fragmentInForeignLang);
-      currentParagraphInAppLang.push(fragmentInAppLang);
-    }
-  }
+  // let currentParagraphInForeignLang = [] as string[];
+  // let currentParagraphInAppLang = [] as string[];
+  // for (let i = 0; i < inForeignLang.length; i++) {
+  //   const fragmentInForeignLang = inForeignLang[i];
+  //   const fragmentInAppLang = inAppLang[i];
 
-  return paragraphsInForeignLang.map((paragraphInForeignLang, i) => (
-    <JokeParagraph
-      // eslint-disable-next-line react/no-array-index-key
-      key={i}
-      inForeignLang={paragraphInForeignLang}
-      inAppLang={paragraphsInAppLang[i]}
-    />
-  ));
+  //   if (fragmentInForeignLang === PARAGRAPH_DIVIDER) {
+  //     paragraphsInForeignLang.push(currentParagraphInForeignLang);
+  //     paragraphsInAppLang.push(currentParagraphInAppLang);
+  //     currentParagraphInForeignLang = [];
+  //     currentParagraphInAppLang = [];
+  //   } else {
+  //     currentParagraphInForeignLang.push(fragmentInForeignLang);
+  //     currentParagraphInAppLang.push(fragmentInAppLang);
+  //   }
+  // }
+
+  // return paragraphsInForeignLang.map((paragraphInForeignLang, i) => (
+  //   <JokeParagraph
+  //     // eslint-disable-next-line react/no-array-index-key
+  //     key={i}
+  //     inForeignLang={paragraphInForeignLang}
+  //     inAppLang={paragraphsInAppLang[i]}
+  //   />
+  // ));
 }
 
 interface JokeParagraphProps {

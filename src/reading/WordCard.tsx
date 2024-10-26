@@ -1,18 +1,15 @@
-"use client";
-
 import { Box, Stack, Typography } from "@mui/material";
 import { FitnessCenterOutlined } from "@mui/icons-material";
-import Image from "next/image";
-import { SquarishIconButton } from "@/core/SquarishIconButton";
-import { useLangs } from "../lang";
-import { Word } from "../jokes";
+import { SquarishIconButton } from "../core/SquarishIconButton";
+import { Word } from "@models/stories";
+import { useLangs } from "@/lang";
 
 interface WordCardProps {
   word: Word;
 }
 
 export function WordCard({ word }: WordCardProps) {
-  const { appLang, foreignLang } = useLangs();
+  const { foreignLang, appLang } = useLangs();
   const termInAppLang = word.term[appLang];
   const termInForeignLang = word.term[foreignLang];
 
@@ -35,12 +32,7 @@ export function WordCard({ word }: WordCardProps) {
       </Stack>
       {word.image && (
         <Box sx={{ width: 100, height: 100, position: "relative" }}>
-          <Image
-            src={word.image}
-            alt={termInAppLang}
-            width={100}
-            height={100}
-          />
+          <img src={word.image} alt={termInAppLang} width={100} height={100} />
         </Box>
       )}
     </Stack>

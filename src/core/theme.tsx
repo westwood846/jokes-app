@@ -1,19 +1,17 @@
-"use client";
-
 import { createTheme } from "@mui/material/styles";
-import { Mulish } from "next/font/google";
+// import { Mulish } from "next/font/google";
 
-const mainFont = Mulish({
-  weight: ["300", "500", "700"],
-  variable: "--font-main",
-  subsets: ["latin", "latin-ext"],
-});
+// const mainFont = Mulish({
+//   weight: ["300", "500", "700"],
+//   variable: "--font-main",
+//   subsets: ["latin", "latin-ext"],
+// });
 
 // eslint-disable-next-line import/no-mutable-exports
 export let theme = createTheme({
-  typography: {
-    fontFamily: mainFont.style.fontFamily,
-  },
+  // typography: {
+  //   fontFamily: mainFont.style.fontFamily,
+  // },
   // colorSchemes: {
   //   dark: true,
   // },

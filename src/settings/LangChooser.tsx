@@ -1,14 +1,6 @@
-"use client";
-
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Typography,
-} from "@mui/material";
-import { langs } from "@/lang";
-import { usePreferences } from "@/core/preferences";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { usePreferences } from "./preferences";
+import { langs } from "@models/lang";
 
 interface LangChooserProps {
   prefKey: "appLang" | "foreignLang";
@@ -16,11 +8,9 @@ interface LangChooserProps {
 }
 
 function LangChooser({ prefKey, label }: LangChooserProps) {
-  const { prefsQuery, prefsMutation } = usePreferences();
+  const { setPrefs, prefs } = usePreferences();
 
   const labelId = `lang-chooser-${prefKey}`;
-
-  if (!prefsQuery.data) return <Typography>Loading...</Typography>;
 
   return (
     <FormControl fullWidth>
@@ -28,11 +18,11 @@ function LangChooser({ prefKey, label }: LangChooserProps) {
 
       <Select
         labelId={labelId}
-        value={prefsQuery.data[prefKey]}
+        value={prefs[prefKey]}
         label={label}
         onChange={(e) =>
-          prefsMutation.mutate({
-            ...prefsQuery.data,
+          setPrefs({
+            ...prefs,
             [prefKey]: e.target.value as string,
           })
         }
