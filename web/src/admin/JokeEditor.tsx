@@ -14,22 +14,25 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
+export type JokeWithOptionalId = Omit<IJoke, "id"> & { id?: string };
+
 interface EditJokeProps {
-  originalJoke: IJoke;
+  originalJoke: JokeWithOptionalId;
 }
 
-type FormValues = Omit<IJoke, "translations" | "lang"> & {
+type FormValues = Omit<JokeWithOptionalId, "translations" | "lang"> & {
   translations: Record<string, string>;
   lang: Lang | "";
 };
 
-const toFormValues = (joke: IJoke): FormValues => ({
+const toFormValues = (joke: JokeWithOptionalId): FormValues => ({
   ...joke,
   translations: joke.translations,
   lang: joke.lang || "",
 });
 
 const fromFormValues = (values: FormValues): IJoke => ({
+  id: "new-joke",
   ...values,
   translations: values.translations,
   lang: values.lang || null,
@@ -125,7 +128,8 @@ export function JokeEditor({ originalJoke }: EditJokeProps) {
             <Button
               variant="outlined"
               color="warning"
-              onClick={() => deleteMutation.mutate(originalJoke.id)}
+              onClick={() => deleteMutation.mutate(originalJoke.id!)}
+              disabled={Boolean(originalJoke.id)}
             >
               Delete
             </Button>

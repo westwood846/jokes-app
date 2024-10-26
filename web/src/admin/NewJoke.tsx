@@ -1,10 +1,8 @@
-import { IJoke } from "@models/stories";
 import { useMemo } from "react";
-import { JokeEditor } from "./JokeEditor";
+import { JokeEditor, JokeWithOptionalId } from "./JokeEditor";
 
 const getNewJoke = () =>
   ({
-    id: crypto.randomUUID(),
     title: { en: "English Title", de: "German Title", ru: "Russian Title" },
     translations: {
       en: "English text",
@@ -20,7 +18,7 @@ const getNewJoke = () =>
     tags: [],
     lang: null,
     image: "/penguins.png",
-  } as IJoke);
+  } as JokeWithOptionalId);
 
 export const NewJoke = () => {
   const newJoke = useMemo(getNewJoke, []);
