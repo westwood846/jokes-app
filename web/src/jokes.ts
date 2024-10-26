@@ -1,5 +1,6 @@
 import { IJoke } from "@models/stories";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { env } from "./env";
 
 export const PARAGRAPH_DIVIDER = "</ja:p>";
 
@@ -283,7 +284,7 @@ export const isShort = (joke: IJoke) => {
 };
 
 const fetchJokes = async () => {
-  const response = await fetch("http://localhost:3001");
+  const response = await fetch(env().API_URL);
   return response.json() as Promise<IJoke[]>;
 };
 
@@ -296,7 +297,7 @@ export const useJokes = () => {
 };
 
 const deleteJoke = async (id: string) => {
-  const response = await fetch(`http://localhost:3001/jokes/${id}`, {
+  const response = await fetch(`${env().API_URL}/jokes/${id}`, {
     method: "DELETE",
   });
   return response.json() as Promise<string>;
@@ -310,7 +311,7 @@ export const useDeleteJoke = () => {
 };
 
 export const createJoke = async (joke: IJoke) => {
-  const response = await fetch("http://localhost:3001/jokes", {
+  const response = await fetch(`${env().API_URL}/jokes`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

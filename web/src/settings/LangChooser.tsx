@@ -1,6 +1,12 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { usePreferences } from "./preferences";
-import { langs } from "@models/lang";
+import { Lang } from "@models/lang";
+
+const langs: Record<Lang, string> = {
+  en: "English",
+  de: "German",
+  ru: "Russian",
+};
 
 interface LangChooserProps {
   prefKey: "appLang" | "foreignLang";

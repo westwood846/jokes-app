@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "outDir": "./dist",
+
     "lib": ["ES2023"],
 
     "esModuleInterop": true,
