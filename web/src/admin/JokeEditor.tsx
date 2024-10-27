@@ -1,4 +1,4 @@
-import { useCreateJoke, useDeleteJoke } from "@/jokes";
+import { useCreateJoke, useDeleteJoke, useUpdateJoke } from "@/jokes";
 import { Joke } from "@/reading/Joke";
 import { Lang } from "@models/lang";
 import { IJoke } from "@models/stories";
@@ -55,7 +55,20 @@ export function JokeEditor({ originalJoke }: EditJokeProps) {
     navigate("/admin");
   }, [createMutation.isSuccess, navigate]);
 
+  const { mutation: updateMutation } = useUpdateJoke();
+
+  useEffect(() => {
+    if (!updateMutation.isSuccess) return;
+    navigate("/admin");
+  }, [updateMutation.isSuccess, navigate]);
+
   const form = useForm({ defaultValues: toFormValues(originalJoke) });
+
+  const handleSubmit = () => {
+    const joke = fromFormValues(form.getValues());
+    if (originalJoke.id) updateMutation.mutate(joke);
+    else createMutation.mutate(joke);
+  };
 
   return (
     <Container maxWidth="md" sx={{ pt: 2, pb: 8 }}>
@@ -129,17 +142,11 @@ export function JokeEditor({ originalJoke }: EditJokeProps) {
               variant="outlined"
               color="warning"
               onClick={() => deleteMutation.mutate(originalJoke.id!)}
-              disabled={Boolean(originalJoke.id)}
+              disabled={!Boolean(originalJoke.id)}
             >
               Delete
             </Button>
-            <Button
-              variant="contained"
-              color="success"
-              onClick={() =>
-                createMutation.mutate(fromFormValues(form.getValues()))
-              }
-            >
+            <Button variant="contained" color="success" onClick={handleSubmit}>
               Save
             </Button>
           </Stack>

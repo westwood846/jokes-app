@@ -1,5 +1,5 @@
 import { JokesList } from "@/admin/JokesList";
-import { Alert, Box, Button, Container, Stack } from "@mui/material";
+import { Box, Button, Container, Stack } from "@mui/material";
 import { useJokes } from "@/jokes";
 import { Link } from "react-router-dom";
 
@@ -23,11 +23,6 @@ export function Admin() {
           </Button>
         </Box>
         <JokesList jokes={jokes} />
-        <Alert severity="info">
-          I haven't implemented an endpoint for updating jokes yet, so for now,
-          when you "edit" them, it creates a modified copy instead. But you can
-          then delete the original.
-        </Alert>
       </Stack>
     </Container>
   );

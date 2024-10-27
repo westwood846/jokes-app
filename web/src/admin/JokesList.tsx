@@ -8,6 +8,8 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 
+const byId = (a: IJoke, b: IJoke) => a.id.localeCompare(b.id);
+
 interface JokesListProps {
   jokes: IJoke[];
 }
@@ -15,7 +17,7 @@ interface JokesListProps {
 export function JokesList({ jokes }: JokesListProps) {
   return (
     <List>
-      {jokes.map((joke) => (
+      {jokes.sort(byId).map((joke) => (
         <ListItem key={joke.id} component={Link} to={`/admin/jokes/${joke.id}`}>
           <ListItemAvatar>
             <Avatar sx={{ position: "relative" }}>

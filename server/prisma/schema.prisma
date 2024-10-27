@@ -22,7 +22,7 @@ model Story {
   body         StoryBody[]
   imageURL     String?
   mainLang     Lang?
-  StoryHelp    StoryHelp[]
+  help         StoryHelp[]
   termsOnStory TermOnStory[]
   tagsOnStory  TagOnStory[]
 }

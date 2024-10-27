@@ -327,3 +327,21 @@ export const useCreateJoke = () => {
   });
   return { mutation };
 };
+
+export const updateJoke = async (joke: IJoke) => {
+  const response = await fetch(`${env().API_URL}/jokes/${joke.id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(joke),
+  });
+  return response.json() as Promise<IJoke>;
+};
+
+export const useUpdateJoke = () => {
+  const mutation = useMutation({
+    mutationFn: updateJoke,
+  });
+  return { mutation };
+};

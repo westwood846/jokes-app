@@ -153,21 +153,18 @@ export function LongJoke({ joke }: JokeProps) {
     <Stack spacing={2}>
       {joke.image && (
         <Box
+          component="img"
+          src={joke.image}
+          alt={titleInAppLang}
           sx={{
             width: "100%",
-            height: 300,
+            height: 256,
             borderRadius: 10,
             boxShadow: "3px 3px 50px 8px rgba(255,198,0,0.15)",
             position: "relative",
+            objectFit: "cover",
           }}
-        >
-          <img
-            src={joke.image}
-            alt={titleInAppLang}
-            style={{ objectFit: "cover" }}
-            sizes="(max-width: 9999px) 828px"
-          />
-        </Box>
+        ></Box>
       )}
 
       <Stack direction="row">

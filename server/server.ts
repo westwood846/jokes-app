@@ -14,7 +14,7 @@ const port = 3001;
 const prisma = new PrismaClient();
 
 const getFullStories = () =>
-  prisma.story.findMany({ include: { body: true, title: true } });
+  prisma.story.findMany({ include: { body: true, title: true, help: true } });
 
 type StoryFromDB = Awaited<ReturnType<typeof getFullStories>>[0];
 
@@ -27,8 +27,10 @@ const formatStory = (story: StoryFromDB): Joke => ({
   id: story.id,
   tags: [],
   lang: story.mainLang,
+  image: story.imageURL,
   title: story.title.reduce(toLangMap, {}),
   translations: story.body.reduce(toLangMap, {}),
+  explanations: story.help.reduce(toLangMap, {}),
 });
 
 app.get("/", async (req, res) => {
@@ -51,20 +53,64 @@ app.post("/jokes", async (req, res) => {
     value,
   }));
 
+  const helpRecords = Object.entries(translations).map(([lang, value]) => ({
+    lang: lang as Lang,
+    value,
+  }));
+
   await prisma.story.create({
     data: {
       mainLang: lang,
       title: { create: titleRecords },
       body: { create: bodyRecords },
+      help: { create: helpRecords },
     },
   });
 
   res.json(joke);
 });
 
+app.put("/jokes/:id", async (req, res) => {
+  const joke: Joke = req.body;
+  const { id } = req.params;
+  const { lang, title, translations, explanations = {}, image } = joke;
+
+  const result = await prisma.story.update({
+    where: { id },
+    data: {
+      mainLang: lang,
+      imageURL: image,
+      title: {
+        updateMany: Object.entries(title).map(([lang, value]) => ({
+          where: { lang: lang as Lang },
+          data: { value },
+        })),
+      },
+      body: {
+        updateMany: Object.entries(translations).map(([lang, value]) => ({
+          where: { lang: lang as Lang },
+          data: { value },
+        })),
+      },
+      help: {
+        updateMany: Object.entries(explanations).map(([lang, value]) => ({
+          where: { lang: lang as Lang },
+          data: { value },
+        })),
+      },
+    },
+    include: { title: true, body: true, help: true },
+  });
+
+  res.json(result);
+});
+
 app.delete("/jokes/:id", async (req, res) => {
   const { id } = req.params;
-  await prisma.story.delete({ where: { id } });
+  await prisma.story.delete({
+    where: { id },
+    include: { title: true, body: true, help: true },
+  });
   res.json({ id });
 });
 
