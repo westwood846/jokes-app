@@ -1,7 +1,7 @@
-import { useCreateJoke, useDeleteJoke, useUpdateJoke } from "@/jokes";
-import { Joke } from "@/reading/Joke";
+import { useCreateStory, useDeleteStory, useUpdateStory } from "@/stories";
+import { Story } from "@/reading/Story";
 import { Lang } from "@models/lang";
-import { IJoke } from "@models/stories";
+import { Story as IStory } from "@models/stories";
 import {
   Box,
   Button,
@@ -14,60 +14,60 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-export type JokeWithOptionalId = Omit<IJoke, "id"> & { id?: string };
+export type StoryWithOptionalId = Omit<IStory, "id"> & { id?: string };
 
-interface EditJokeProps {
-  originalJoke: JokeWithOptionalId;
+interface EditStoryProps {
+  original: StoryWithOptionalId;
 }
 
-type FormValues = Omit<JokeWithOptionalId, "translations" | "lang"> & {
+type FormValues = Omit<StoryWithOptionalId, "translations" | "lang"> & {
   translations: Record<string, string>;
   lang: Lang | "";
 };
 
-const toFormValues = (joke: JokeWithOptionalId): FormValues => ({
-  ...joke,
-  translations: joke.translations,
-  lang: joke.lang || "",
+const toFormValues = (story: StoryWithOptionalId): FormValues => ({
+  ...story,
+  translations: story.translations,
+  lang: story.lang || "",
 });
 
-const fromFormValues = (values: FormValues): IJoke => ({
-  id: "new-joke",
+const fromFormValues = (values: FormValues): IStory => ({
+  id: "new-story",
   ...values,
   translations: values.translations,
   lang: values.lang || null,
 });
 
-export function JokeEditor({ originalJoke }: EditJokeProps) {
+export function StoryEditor({ original }: EditStoryProps) {
   const navigate = useNavigate();
 
-  const { mutation: deleteMutation } = useDeleteJoke();
+  const { mutation: deleteMutation } = useDeleteStory();
 
   useEffect(() => {
     if (!deleteMutation.isSuccess) return;
     navigate("/admin");
   }, [deleteMutation.isSuccess, navigate]);
 
-  const { mutation: createMutation } = useCreateJoke();
+  const { mutation: createMutation } = useCreateStory();
 
   useEffect(() => {
     if (!createMutation.isSuccess) return;
     navigate("/admin");
   }, [createMutation.isSuccess, navigate]);
 
-  const { mutation: updateMutation } = useUpdateJoke();
+  const { mutation: updateMutation } = useUpdateStory();
 
   useEffect(() => {
     if (!updateMutation.isSuccess) return;
     navigate("/admin");
   }, [updateMutation.isSuccess, navigate]);
 
-  const form = useForm({ defaultValues: toFormValues(originalJoke) });
+  const form = useForm({ defaultValues: toFormValues(original) });
 
   const handleSubmit = () => {
-    const joke = fromFormValues(form.getValues());
-    if (originalJoke.id) updateMutation.mutate(joke);
-    else createMutation.mutate(joke);
+    const story = fromFormValues(form.getValues());
+    if (original.id) updateMutation.mutate(story);
+    else createMutation.mutate(story);
   };
 
   return (
@@ -76,7 +76,7 @@ export function JokeEditor({ originalJoke }: EditJokeProps) {
         <Stack spacing={2} flex={1}>
           <Typography variant="h5">Title</Typography>
           <Stack spacing={2} pb={4}>
-            {(Object.keys(originalJoke.title) as Lang[]).map((lang) => (
+            {(Object.keys(original.title) as Lang[]).map((lang) => (
               <TextField
                 key={lang}
                 label={lang}
@@ -90,7 +90,7 @@ export function JokeEditor({ originalJoke }: EditJokeProps) {
             <Stack>
               <Typography variant="h5">Translations</Typography>
               <Typography variant="body2" color="text.secondary">
-                Jokes are written in markdown. In this editor, each sentence
+                Storys are written in markdown. In this editor, each sentence
                 will be considered a fragment. Sentences are terminated by a
                 period, exclamation mark, question mark, colon, semicolon or
                 em-dash. Newlines are ignored, but double-newlines will start a
@@ -98,7 +98,7 @@ export function JokeEditor({ originalJoke }: EditJokeProps) {
               </Typography>
             </Stack>
 
-            {(Object.keys(originalJoke.translations) as Lang[]).map((lang) => (
+            {(Object.keys(original.translations) as Lang[]).map((lang) => (
               <TextField
                 key={lang}
                 label={lang}
@@ -112,7 +112,7 @@ export function JokeEditor({ originalJoke }: EditJokeProps) {
 
           <Typography variant="h5">Explanation</Typography>
           <Stack spacing={2} pb={4}>
-            {(Object.keys(originalJoke.explanations || []) as Lang[]).map(
+            {(Object.keys(original.explanations || []) as Lang[]).map(
               (lang) => (
                 <TextField
                   key={lang}
@@ -141,8 +141,8 @@ export function JokeEditor({ originalJoke }: EditJokeProps) {
             <Button
               variant="outlined"
               color="warning"
-              onClick={() => deleteMutation.mutate(originalJoke.id!)}
-              disabled={!Boolean(originalJoke.id)}
+              onClick={() => deleteMutation.mutate(original.id!)}
+              disabled={!Boolean(original.id)}
             >
               Delete
             </Button>
@@ -150,7 +150,7 @@ export function JokeEditor({ originalJoke }: EditJokeProps) {
               Save
             </Button>
           </Stack>
-          <Joke joke={fromFormValues(form.watch())} />
+          <Story story={fromFormValues(form.watch())} />
           <Box
             sx={{
               border: ({ palette }) => `1px solid ${palette.divider}`,

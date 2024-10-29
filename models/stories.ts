@@ -10,7 +10,7 @@ export interface Word {
   image?: string;
 }
 
-export interface IJoke {
+export interface Story {
   id: string;
   tags: string[];
   image?: string;

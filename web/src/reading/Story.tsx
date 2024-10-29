@@ -19,19 +19,19 @@ import ReactMarkdown from "react-markdown";
 import { WordCard } from "./WordCard";
 import { SquarishSwitch } from "../core/SquarishSwitch";
 import { useLangs } from "../lang";
-import { isShort } from "../jokes";
+import { isShort } from "../stories";
 import { SquarishIconButton } from "../core/SquarishIconButton";
-import { IJoke } from "@models/stories";
+import { Story as IStory } from "@models/stories";
 import { Link } from "react-router-dom";
 
-interface JokeProps {
-  joke: IJoke;
+interface StoryProps {
+  story: IStory;
 }
 
-export function Joke({ joke }: JokeProps) {
-  if (isShort(joke)) return <ShortJoke joke={joke} />;
+export function Story({ story }: StoryProps) {
+  if (isShort(story)) return <ShortStory story={story} />;
 
-  return <LongJoke joke={joke} />;
+  return <LongStory story={story} />;
 }
 
 const gradients = [
@@ -40,25 +40,25 @@ const gradients = [
   "linear-gradient(97.94deg, #8FEFFC 0%, #DEF6A8 100%)",
 ];
 
-const jokeIdToGradient = (id: string) => {
+const storyIdToGradient = (id: string) => {
   const sum = id.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
   return gradients[sum % gradients.length];
 };
 
-export function ShortJoke({ joke }: JokeProps) {
+export function ShortStory({ story }: StoryProps) {
   const { foreignLang, appLang } = useLangs();
 
-  const jokeInAppLang = joke.translations[appLang];
-  const jokeInForeignLang = joke.translations[foreignLang];
+  const storyInAppLang = story.translations[appLang];
+  const storyInForeignLang = story.translations[foreignLang];
 
-  if (!jokeInAppLang || !jokeInForeignLang) {
+  if (!storyInAppLang || !storyInForeignLang) {
     return (
       <Alert
         severity="error"
         action={
           <Button
             component={Link}
-            to={`/admin/jokes/${joke.id}`}
+            to={`/admin/stories/${story.id}`}
             variant="outlined"
             color="inherit"
             sx={{ my: "auto" }}
@@ -67,14 +67,14 @@ export function ShortJoke({ joke }: JokeProps) {
           </Button>
         }
       >
-        This joke is missing a translation for {appLang} or {foreignLang}
+        This story is missing a translation for {appLang} or {foreignLang}
         <br />
-        Joke id: <code>{joke.id}</code>
+        Story id: <code>{story.id}</code>
       </Alert>
     );
   }
 
-  const gradient = jokeIdToGradient(joke.id);
+  const gradient = storyIdToGradient(story.id);
 
   return (
     <Box sx={{ pb: 3.5 / 2 }}>
@@ -87,8 +87,8 @@ export function ShortJoke({ joke }: JokeProps) {
         }}
       >
         <CardContent sx={{ textAlign: "center", px: 2, py: 8 }}>
-          <Typography variant="h4">{jokeInAppLang}</Typography>
-          <Typography variant="body1">{jokeInForeignLang}</Typography>
+          <Typography variant="h4">{storyInAppLang}</Typography>
+          <Typography variant="body1">{storyInForeignLang}</Typography>
         </CardContent>
         <CardActions
           sx={{
@@ -100,16 +100,16 @@ export function ShortJoke({ joke }: JokeProps) {
         >
           <Stack direction="row" justifyContent="space-between" flex={1}>
             <Stack direction="row" spacing={2} alignItems="center">
-              <SquarishIconButton title="Listen to joke" color="primary">
+              <SquarishIconButton title="Listen to story" color="primary">
                 <VolumeUp />
               </SquarishIconButton>
               <SquarishSwitch
-                title="Toggle joke translation"
+                title="Toggle story translation"
                 icon={<TranslateOutlined />}
                 checkedIcon={<TranslateOutlined />}
               />
             </Stack>
-            <SquarishIconButton title="Share joke">
+            <SquarishIconButton title="Share story">
               <Share />
             </SquarishIconButton>
           </Stack>
@@ -119,17 +119,17 @@ export function ShortJoke({ joke }: JokeProps) {
   );
 }
 
-export function LongJoke({ joke }: JokeProps) {
+export function LongStory({ story }: StoryProps) {
   const { foreignLang, appLang } = useLangs();
 
-  const jokeInAppLang = joke.translations[appLang];
-  const jokeInForeignLang = joke.translations[foreignLang];
-  const titleInAppLang = joke.title[appLang];
-  const titleInForeignLang = joke.title[foreignLang];
+  const storyInAppLang = story.translations[appLang];
+  const storyInForeignLang = story.translations[foreignLang];
+  const titleInAppLang = story.title[appLang];
+  const titleInForeignLang = story.title[foreignLang];
 
   const difficulty =
-    joke.terms && joke.terms.length > 0
-      ? joke.terms.reduce(
+    story.terms && story.terms.length > 0
+      ? story.terms.reduce(
           (max, term) =>
             (term.difficulty || "A0") < max ? max : term.difficulty,
           "A1"
@@ -137,24 +137,24 @@ export function LongJoke({ joke }: JokeProps) {
       : null;
 
   if (
-    !jokeInAppLang ||
-    !jokeInForeignLang ||
+    !storyInAppLang ||
+    !storyInForeignLang ||
     !titleInAppLang ||
     !titleInForeignLang
   ) {
     return (
       <Alert severity="error">
-        This joke is missing translations for {appLang} or {foreignLang}.
+        This story is missing translations for {appLang} or {foreignLang}.
       </Alert>
     );
   }
 
   return (
     <Stack spacing={2}>
-      {joke.image && (
+      {story.image && (
         <Box
           component="img"
-          src={joke.image}
+          src={story.image}
           alt={titleInAppLang}
           sx={{
             width: "100%",
@@ -187,30 +187,33 @@ export function LongJoke({ joke }: JokeProps) {
             <VolumeUp />
           </SquarishIconButton>
           <SquarishSwitch
-            title="Toggle joke translation"
+            title="Toggle story translation"
             icon={<TranslateOutlined />}
             checkedIcon={<TranslateOutlined />}
           />
         </Stack>
-        <SquarishIconButton title='Share joke"'>
+        <SquarishIconButton title='Share story"'>
           <Share />
         </SquarishIconButton>
       </Stack>
 
       <div>
-        <JokeBody inAppLang={jokeInAppLang} inForeignLang={jokeInForeignLang} />
+        <StoryBody
+          inAppLang={storyInAppLang}
+          inForeignLang={storyInForeignLang}
+        />
       </div>
 
       <Divider>🤣</Divider>
 
       <Typography color="text.secondary" fontStyle="italic" pb={1}>
-        {joke.explanations?.[appLang]}
+        {story.explanations?.[appLang]}
       </Typography>
 
       <Divider />
 
       <List component="dl" sx={{ py: 0 }}>
-        {joke.terms?.map((term, i, all) => (
+        {story.terms?.map((term, i, all) => (
           <ListItem
             key={term.term[appLang]}
             disablePadding
@@ -224,58 +227,23 @@ export function LongJoke({ joke }: JokeProps) {
   );
 }
 
-interface JokeBodyProps {
+interface StoryBodyProps {
   inAppLang: string;
   inForeignLang: string;
 }
 
-function JokeBody({ inAppLang, inForeignLang }: JokeBodyProps) {
+function StoryBody({ inAppLang, inForeignLang }: StoryBodyProps) {
   return (
-    <JokeParagraph inAppLang={[inAppLang]} inForeignLang={[inForeignLang]} />
+    <StoryParagraph inAppLang={[inAppLang]} inForeignLang={[inForeignLang]} />
   );
-
-  // if (!inAppLang.some((line) => line === PARAGRAPH_DIVIDER)) {
-  //   return (
-  //     <JokeParagraph inAppLang={inAppLang} inForeignLang={inForeignLang} />
-  //   );
-  // }
-
-  // const paragraphsInForeignLang = [] as string[][];
-  // const paragraphsInAppLang = [] as string[][];
-
-  // let currentParagraphInForeignLang = [] as string[];
-  // let currentParagraphInAppLang = [] as string[];
-  // for (let i = 0; i < inForeignLang.length; i++) {
-  //   const fragmentInForeignLang = inForeignLang[i];
-  //   const fragmentInAppLang = inAppLang[i];
-
-  //   if (fragmentInForeignLang === PARAGRAPH_DIVIDER) {
-  //     paragraphsInForeignLang.push(currentParagraphInForeignLang);
-  //     paragraphsInAppLang.push(currentParagraphInAppLang);
-  //     currentParagraphInForeignLang = [];
-  //     currentParagraphInAppLang = [];
-  //   } else {
-  //     currentParagraphInForeignLang.push(fragmentInForeignLang);
-  //     currentParagraphInAppLang.push(fragmentInAppLang);
-  //   }
-  // }
-
-  // return paragraphsInForeignLang.map((paragraphInForeignLang, i) => (
-  //   <JokeParagraph
-  //     // eslint-disable-next-line react/no-array-index-key
-  //     key={i}
-  //     inForeignLang={paragraphInForeignLang}
-  //     inAppLang={paragraphsInAppLang[i]}
-  //   />
-  // ));
 }
 
-interface JokeParagraphProps {
+interface StoryParagraphProps {
   inAppLang: string[];
   inForeignLang: string[];
 }
 
-function JokeParagraph({ inAppLang, inForeignLang }: JokeParagraphProps) {
+function StoryParagraph({ inAppLang, inForeignLang }: StoryParagraphProps) {
   return (
     <p>
       {inForeignLang.map((line, i) => (

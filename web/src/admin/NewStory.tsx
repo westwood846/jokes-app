@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import { JokeEditor, JokeWithOptionalId } from "./JokeEditor";
+import { StoryEditor, StoryWithOptionalId } from "./StoryEditor";
 
-const getNewJoke = () =>
+const getNewStory = () =>
   ({
     title: { en: "English Title", de: "German Title", ru: "Russian Title" },
     translations: {
@@ -18,9 +18,9 @@ const getNewJoke = () =>
     tags: [],
     lang: null,
     image: "/penguins.png",
-  } as JokeWithOptionalId);
+  } as StoryWithOptionalId);
 
-export const NewJoke = () => {
-  const newJoke = useMemo(getNewJoke, []);
-  return <JokeEditor originalJoke={newJoke} />;
+export const NewStory = () => {
+  const newStory = useMemo(getNewStory, []);
+  return <StoryEditor original={newStory} />;
 };

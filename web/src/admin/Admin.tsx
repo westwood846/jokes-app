@@ -1,12 +1,12 @@
-import { JokesList } from "@/admin/JokesList";
+import { StoriesList } from "@/admin/StoriesList";
 import { Box, Button, Container, Stack } from "@mui/material";
-import { useJokes } from "@/jokes";
+import { useStories } from "@/stories";
 import { Link } from "react-router-dom";
 
 export function Admin() {
   const {
-    query: { data: jokes = [] },
-  } = useJokes();
+    query: { data: stories = [] },
+  } = useStories();
 
   return (
     <Container maxWidth="sm" sx={{ pt: 2, pb: 8 }}>
@@ -14,15 +14,15 @@ export function Admin() {
         <Box textAlign="end">
           <Button
             component={Link}
-            to="/admin/jokes/new"
+            to="/admin/stories/new"
             variant="contained"
             color="primary"
             sx={{ flexGrow: 0 }}
           >
-            New Joke
+            New Story
           </Button>
         </Box>
-        <JokesList jokes={jokes} />
+        <StoriesList stories={stories} />
       </Stack>
     </Container>
   );

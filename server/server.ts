@@ -3,7 +3,7 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 
-import { IJoke as Joke } from "@models/stories";
+import { Story } from "@models/stories";
 
 const app = express();
 app.use(cors());
@@ -23,7 +23,7 @@ const toLangMap = (
   title: { lang: Lang; value: string }
 ) => ({ ...acc, [title.lang]: title.value });
 
-const formatStory = (story: StoryFromDB): Joke => ({
+const formatStory = (story: StoryFromDB): Story => ({
   id: story.id,
   tags: [],
   lang: story.mainLang,
@@ -33,15 +33,19 @@ const formatStory = (story: StoryFromDB): Joke => ({
   explanations: story.help.reduce(toLangMap, {}),
 });
 
-app.get("/", async (req, res) => {
-  const storiesFromDB = await getFullStories();
-  const stories = storiesFromDB.map(formatStory);
-  res.json(stories);
+app.get("/stories", async (req, res, next) => {
+  try {
+    const storiesFromDB = await getFullStories();
+    const stories = storiesFromDB.map(formatStory);
+    res.json(stories);
+  } catch (err) {
+    next(err);
+  }
 });
 
-app.post("/jokes", async (req, res) => {
-  const joke: Joke = req.body;
-  const { lang, title, translations } = joke;
+app.post("/stories", async (req, res) => {
+  const story: Story = req.body;
+  const { lang, title, translations } = story;
 
   const titleRecords = Object.entries(title).map(([lang, value]) => ({
     lang: lang as Lang,
@@ -67,13 +71,13 @@ app.post("/jokes", async (req, res) => {
     },
   });
 
-  res.json(joke);
+  res.json(story);
 });
 
-app.put("/jokes/:id", async (req, res) => {
-  const joke: Joke = req.body;
+app.put("/stories/:id", async (req, res) => {
+  const story: Story = req.body;
   const { id } = req.params;
-  const { lang, title, translations, explanations = {}, image } = joke;
+  const { lang, title, translations, explanations = {}, image } = story;
 
   const result = await prisma.story.update({
     where: { id },
@@ -105,7 +109,7 @@ app.put("/jokes/:id", async (req, res) => {
   res.json(result);
 });
 
-app.delete("/jokes/:id", async (req, res) => {
+app.delete("/stories/:id", async (req, res) => {
   const { id } = req.params;
   await prisma.story.delete({
     where: { id },
