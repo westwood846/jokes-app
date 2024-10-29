@@ -6,6 +6,8 @@
 
     "esModuleInterop": true,
     "isolatedModules": true,
+    "moduleResolution": "nodenext",
+    "module": "NodeNext",
 
     "paths": {
       "@models/*": ["../models/*"]

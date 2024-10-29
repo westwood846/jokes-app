@@ -5,8 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsx --watch server.ts",
-    "build": "tsc",
-    "start": "node server.js"
+    "build": "ncc build server.ts -o dist && mv dist/client/* dist",
+    "start": "node dist/index.js"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +22,8 @@
     "@types/body-parser": "^1.19.5",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
+    "@vercel/ncc": "^0.38.2",
+    "dotenv": "^16.4.5",
     "tsx": "^4.19.1",
     "typescript": "^5.6.3"
   }
