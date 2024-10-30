@@ -17,4 +17,7 @@ app.get("*", function (request, response) {
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
+  console.log(
+    `First request will connect to DB at ${process.env.DATABASE_URL}`
+  );
 });
