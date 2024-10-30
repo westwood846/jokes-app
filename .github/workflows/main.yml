@@ -1,0 +1,34 @@
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy-prod:
+    name: Deploy to production
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./server
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+          package_json_file: ./server/package.json
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+      - name: Install server dependencies
+        run: pnpm install
+      - name: Compile server
+        run: pnpm build
+      - name: Archive server artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: server-dist
+          path: dist

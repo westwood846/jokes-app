@@ -29,3 +29,18 @@ In `server`
 `npx prisma migrate deploy` to apply DB migrations. `pnpm build`, then `node server.js`. Tell it about the DB connection
 
 Change the server's .env to point it to a Postgres DB.
+
+### Dockerrrrrr
+
+```
+docker build \
+  -t stories-backend:latest \
+  --build-arg PORT=3002 \
+  --build-arg DATABASE_URL="postgresql://postgres:postgres@192.168.178.103:5432/mydb?schema=public" \
+  --build-arg API_URL="http://localhost:3002" \
+  .
+
+docker run --name stories -d -p 3001:3001 stories-backend:latest
+```
+
+xxxx
