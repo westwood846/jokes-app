@@ -1,6 +1,6 @@
 import { Story } from "@models/stories";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { env } from "./env";
+import { env } from "../env";
 
 export const isShort = (story: Story) => {
   if (!story.translations.en) return false;
@@ -8,20 +8,20 @@ export const isShort = (story: Story) => {
 };
 
 const fetchStories = async () => {
-  const response = await fetch(`${env().API_URL}/stories`);
+  const response = await fetch(`${env().API_URL}/admin/stories`);
   return response.json() as Promise<Story[]>;
 };
 
 export const useStories = () => {
   const query = useQuery({
-    queryKey: ["stories"],
+    queryKey: ["admin", "stories"],
     queryFn: fetchStories,
   });
   return { query };
 };
 
 const deleteStory = async (id: string) => {
-  const response = await fetch(`${env().API_URL}/stories/${id}`, {
+  const response = await fetch(`${env().API_URL}/admin/stories/${id}`, {
     method: "DELETE",
   });
   return response.json() as Promise<string>;
@@ -35,7 +35,7 @@ export const useDeleteStory = () => {
 };
 
 export const createStory = async (story: Story) => {
-  const response = await fetch(`${env().API_URL}/stories`, {
+  const response = await fetch(`${env().API_URL}/admin/stories`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -53,7 +53,7 @@ export const useCreateStory = () => {
 };
 
 export const updateStory = async (story: Story) => {
-  const response = await fetch(`${env().API_URL}/stories/${story.id}`, {
+  const response = await fetch(`${env().API_URL}/admin/stories/${story.id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

@@ -2,7 +2,7 @@ import { Stack, Typography, List, Divider, Container } from "@mui/material";
 import { Fragment } from "react";
 import { MoreHoriz } from "@mui/icons-material";
 import { Story } from "./Story";
-import { useStories } from "@/stories";
+import { useStories } from "./display-stories";
 
 export function Stream() {
   const {

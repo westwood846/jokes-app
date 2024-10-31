@@ -1,6 +1,6 @@
 import { StoriesList } from "@/admin/StoriesList";
 import { Box, Button, Container, Stack } from "@mui/material";
-import { useStories } from "@/stories";
+import { useStories } from "@/admin/admin-stories";
 import { Link } from "react-router-dom";
 
 export function Admin() {

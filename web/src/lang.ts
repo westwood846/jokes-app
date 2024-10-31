@@ -7,8 +7,8 @@ export const initAppLang: Lang = "en";
 export const useLangsUnsafe = () => {
   const { prefs } = usePreferences();
 
-  const foreignLang = prefs.foreignLang;
-  const appLang = prefs.appLang;
+  const foreignLang = prefs.lang.foreignLang;
+  const appLang = prefs.lang.appLang;
 
   return {
     foreignLang,

@@ -12,5 +12,6 @@ declare global {
 
 export const env = () => {
   const fromWindow = window.env;
-  return { ...defaultEnv, ...fromWindow } as Env;
+  const env = { ...defaultEnv, ...fromWindow } as Env;
+  return env;
 };

@@ -8,7 +8,6 @@ import { theme } from "./core/theme";
 import { RootLayout } from "./layout";
 import { CssBaseline } from "@mui/material";
 import { Stream } from "./reading/Stream";
-import { CookiesProvider } from "react-cookie";
 import { Settings } from "./settings/Settings";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Admin } from "./admin/Admin";
@@ -17,6 +16,7 @@ import { EditStory } from "./admin/EditStory";
 import { Home } from "./Home";
 
 import "@/core/styles.css";
+import { PreferencesProvider } from "./settings/preferences";
 
 function ErrorPage() {
   const error = useRouteError();
@@ -83,14 +83,14 @@ const queryClient = new QueryClient();
 
 export function App() {
   return (
-    <CookiesProvider defaultSetOptions={{ path: "/" }}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <PreferencesProvider>
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />
         </QueryClientProvider>
-      </ThemeProvider>
-    </CookiesProvider>
+      </PreferencesProvider>
+    </ThemeProvider>
   );
 }
 

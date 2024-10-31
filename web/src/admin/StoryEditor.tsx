@@ -1,4 +1,8 @@
-import { useCreateStory, useDeleteStory, useUpdateStory } from "@/stories";
+import {
+  useCreateStory,
+  useDeleteStory,
+  useUpdateStory,
+} from "@/admin/admin-stories";
 import { Story } from "@/reading/Story";
 import { Lang } from "@models/lang";
 import { Story as IStory } from "@models/stories";

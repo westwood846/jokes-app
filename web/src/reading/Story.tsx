@@ -19,7 +19,7 @@ import ReactMarkdown from "react-markdown";
 import { WordCard } from "./WordCard";
 import { SquarishSwitch } from "../core/SquarishSwitch";
 import { useLangs } from "../lang";
-import { isShort } from "../stories";
+import { isShort } from "../admin/admin-stories";
 import { SquarishIconButton } from "../core/SquarishIconButton";
 import { Story as IStory } from "@models/stories";
 import { Link } from "react-router-dom";

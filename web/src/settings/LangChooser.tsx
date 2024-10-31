@@ -15,6 +15,7 @@ interface LangChooserProps {
 
 function LangChooser({ prefKey, label }: LangChooserProps) {
   const { setPrefs, prefs } = usePreferences();
+  const langPrefs = prefs.lang;
 
   const labelId = `lang-chooser-${prefKey}`;
 
@@ -24,12 +25,15 @@ function LangChooser({ prefKey, label }: LangChooserProps) {
 
       <Select
         labelId={labelId}
-        value={prefs[prefKey]}
+        value={langPrefs[prefKey]}
         label={label}
         onChange={(e) =>
           setPrefs({
             ...prefs,
-            [prefKey]: e.target.value as string,
+            lang: {
+              ...langPrefs,
+              [prefKey]: e.target.value as Lang,
+            },
           })
         }
       >

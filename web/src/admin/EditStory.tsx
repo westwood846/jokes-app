@@ -1,4 +1,4 @@
-import { useStories } from "@/stories";
+import { useStories } from "@/admin/admin-stories";
 import { StoryEditor } from "./StoryEditor";
 import { Alert } from "@mui/material";
 import { useParams } from "react-router-dom";
