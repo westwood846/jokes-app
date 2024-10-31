@@ -1,6 +1,12 @@
 import { Lang } from "@models/lang";
 import { usePreferences } from "./settings/preferences";
 
+export const langs: Record<Lang, string> = {
+  en: "English",
+  de: "German",
+  ru: "Russian",
+};
+
 export const initForeignLang: Lang = "de";
 export const initAppLang: Lang = "en";
 

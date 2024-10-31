@@ -18,20 +18,27 @@ import { Fragment } from "react";
 import ReactMarkdown from "react-markdown";
 import { WordCard } from "./WordCard";
 import { SquarishSwitch } from "../core/SquarishSwitch";
-import { useLangs } from "../lang";
 import { isShort } from "../admin/admin-stories";
 import { SquarishIconButton } from "../core/SquarishIconButton";
 import { Story as IStory } from "@models/stories";
 import { Link } from "react-router-dom";
+import { Lang } from "@models/lang";
 
 interface StoryProps {
   story: IStory;
+  appLang: Lang;
+  foreignLang: Lang;
 }
 
-export function Story({ story }: StoryProps) {
-  if (isShort(story)) return <ShortStory story={story} />;
+export function Story({ story, appLang, foreignLang }: StoryProps) {
+  if (isShort(story))
+    return (
+      <ShortStory story={story} appLang={appLang} foreignLang={foreignLang} />
+    );
 
-  return <LongStory story={story} />;
+  return (
+    <LongStory story={story} appLang={appLang} foreignLang={foreignLang} />
+  );
 }
 
 const gradients = [
@@ -45,9 +52,7 @@ const storyIdToGradient = (id: string) => {
   return gradients[sum % gradients.length];
 };
 
-export function ShortStory({ story }: StoryProps) {
-  const { foreignLang, appLang } = useLangs();
-
+export function ShortStory({ story, appLang, foreignLang }: StoryProps) {
   const storyInAppLang = story.translations[appLang];
   const storyInForeignLang = story.translations[foreignLang];
 
@@ -119,9 +124,7 @@ export function ShortStory({ story }: StoryProps) {
   );
 }
 
-export function LongStory({ story }: StoryProps) {
-  const { foreignLang, appLang } = useLangs();
-
+export function LongStory({ story, appLang, foreignLang }: StoryProps) {
   const storyInAppLang = story.translations[appLang];
   const storyInForeignLang = story.translations[foreignLang];
   const titleInAppLang = story.title[appLang];

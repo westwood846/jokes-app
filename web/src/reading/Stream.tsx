@@ -3,11 +3,14 @@ import { Fragment } from "react";
 import { MoreHoriz } from "@mui/icons-material";
 import { Story } from "./Story";
 import { useStories } from "./display-stories";
+import { useLangs } from "@/lang";
 
 export function Stream() {
   const {
     query: { data: stories = [] },
   } = useStories();
+
+  const { appLang, foreignLang } = useLangs();
 
   return (
     <Container maxWidth="sm" sx={{ pt: 2, pb: 8 }}>
@@ -25,7 +28,11 @@ export function Stream() {
         <List>
           {stories.map((story) => (
             <Fragment key={story.id}>
-              <Story story={story} />
+              <Story
+                story={story}
+                appLang={appLang}
+                foreignLang={foreignLang}
+              />
               <Divider sx={{ my: 6 }}>
                 <MoreHoriz fontSize="small" sx={{ mb: -0.6 }} />
               </Divider>

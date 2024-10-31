@@ -154,7 +154,11 @@ export function StoryEditor({ original }: EditStoryProps) {
               Save
             </Button>
           </Stack>
-          <Story story={fromFormValues(form.watch())} />
+          <Story
+            story={fromFormValues(form.watch())}
+            appLang="en"
+            foreignLang="de"
+          />
           <Box
             sx={{
               border: ({ palette }) => `1px solid ${palette.divider}`,
