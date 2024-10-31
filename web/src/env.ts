@@ -1,5 +1,5 @@
 const defaultEnv = {
-  API_URL: "http://localhost:3001",
+  API_URL: "http://localhost:3001/api",
 };
 
 type Env = typeof defaultEnv;

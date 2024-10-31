@@ -14,7 +14,7 @@ RUN pnpm build
 WORKDIR /home/node/app/web
 RUN pnpm install
 RUN pnpm build
-ARG API_URL=http://localhost:3001
+ARG API_URL=http://localhost:3001/api
 ENV API_URL=$API_URL
 RUN echo "API_URL=${API_URL}" > .env
 RUN node envify.js
