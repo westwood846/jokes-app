@@ -1,10 +1,13 @@
+substitutions:
+  _API_URL: API_URL=https://stories-621003290739.europe-west3.run.app/api
+
 steps:
   - name: "gcr.io/cloud-builders/docker"
     args:
-      [
-        "build",
-        "-t",
-        "--tag=gcr.io/${GOOGLE_CLOUD_PROJECT}/stories:latest",
-        --build-arg API_URL="https://stories-621003290739.europe-west3.run.app/api"',
-        ".",
-      ]
+      - "build"
+      - "--tag=gcr.io/$PROJECT_ID/stories:latest"
+      - "--build-arg=${_API_URL}"
+      - "."
+
+images:
+  - "gcr.io/$PROJECT_ID/stories:latest"

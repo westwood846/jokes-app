@@ -30,17 +30,21 @@ In `server`
 
 Change the server's .env to point it to a Postgres DB.
 
-### Dockerrrrrr
+### Docker & Cloud Build
+
+Build and run a Docker image locally, replacing `<IP_ADDRESS>` with your computer's IP address in the LAN:
 
 ```
 docker build \
   -t stories-backend:latest \
-  --build-arg PORT=3002 \
-  --build-arg DATABASE_URL="postgresql://postgres:postgres@192.168.178.103:5432/mydb?schema=public" \
-  --build-arg API_URL="http://localhost:3002" \
+  --build-arg PORT=3001 \
+  --build-arg DATABASE_URL="postgresql://postgres:postgres@<IP_ADDRESS>:5432/mydb?schema=public" \
+  --build-arg API_URL="http://localhost:3001" \
   .
 
 docker run --name stories -d -p 3001:3001 stories-backend:latest
 ```
 
-xxxx
+You can also change the API `PORT`, `DATABASE_URL` and `API_URL` through their respective args.
+
+In a Google Cloud Shell, or with `gcloud` installed locally, you can run the cloud build defined by `cloudbuild.yaml` by running `gcloud builds submit`. Deploy a service with the created image with `gcloud run deploy --image=gcr.io/${GOOGLE_CLOUD_PROJECT}/stories:latest --platform managed`
