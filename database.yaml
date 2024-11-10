@@ -1,0 +1,90 @@
+---
+
+### STORIES ###
+
+stories:
+  - id: s0
+    title:
+      en: Clown
+      de: Clown
+      ru: aaaaaaa
+    original-lang: de
+    image: https://...
+    CEFR: A2
+    body:
+      en: |
+        What does a clown? He does this. Here we go:
+        Faxen
+      de: |
+        Was macht ein Clown...
+        Faxen
+      ru: |
+        abcd
+        abcd
+    audio: https://...
+    audio-checkpoints: 0:05.02, 0:11.57, 0:13.11
+    help:
+      en: Foo Bar
+      de: |
+        Foo
+        Bar
+      ru: |
+        Foo
+        Bar
+    phrases:
+      - clown, faxen
+
+  - id: s1
+    title:
+      en: Hedgehog in the forest
+      de: Igel im Wald
+      ru: aaaaaaa
+    original-lang:
+    image: https://...
+    CEFR: A1
+    body:
+      en: |
+        Two toothpicks...
+      de: |
+        Gehen zwei Zahnstocher...
+      ru: |
+        abcd
+        abcd
+    audio: https://...
+    audio-checkpoints: 0:05.02, 0:11.57, 0:13.11
+    help:
+      en: |
+        Foo
+        Bar
+      de: |
+        Foo
+        Bar
+      ru: |
+        Foo
+        Bar
+    terms:
+      - hedgehog
+
+### PHRASES ###
+
+phrases:
+  - id: clown
+    translations:
+      en: clown
+      de: Clown
+      ru: aaaaaa
+    CEFR: B1
+
+  - id: faxen
+    translations:
+      en: fax
+      de: faxen
+      ru: aaaaaa
+    CEFR: C1
+
+  - id: hedgehog
+    translations:
+      en: hedgehog
+      de: Igel
+      ru: aaaaaa
+    CEFR: B2
