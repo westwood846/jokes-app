@@ -15,7 +15,7 @@ export function Settings() {
           <Typography variant="h4" component="h1">
             Settings
           </Typography>
-          <IconButton component={Link} to="/stream" title="Close settings">
+          <IconButton component={Link} to="/stories" title="Close settings">
             <Close />
           </IconButton>
         </Stack>

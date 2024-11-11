@@ -9,7 +9,7 @@ import {
 import { Link, useLocation } from "react-router-dom";
 
 const routes = {
-  stream: { label: "Stream", icon: <NewspaperOutlined /> },
+  stories: { label: "Stories", icon: <NewspaperOutlined /> },
   categories: { label: "Categories", icon: <CategoryOutlined /> },
   workout: { label: "Workout", icon: <FitnessCenterOutlined /> },
   settings: { label: "You", icon: <Settings /> },

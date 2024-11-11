@@ -5,11 +5,11 @@ export const RootLayout = () => {
   return <Outlet />;
 };
 
-interface Layout {
+interface LayoutProps {
   children: React.ReactNode;
 }
 
-export const NavvyLayout = ({ children }: Layout) => {
+export const NavvyLayout = ({ children }: LayoutProps) => {
   return (
     <>
       <DesktopNav />
@@ -17,4 +17,8 @@ export const NavvyLayout = ({ children }: Layout) => {
       <MobileNav />
     </>
   );
+};
+
+export const FullscreenLayout = ({ children }: LayoutProps) => {
+  return <>{children}</>;
 };
